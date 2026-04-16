@@ -1,0 +1,618 @@
+@import "tailwindcss";
+
+:root {
+  /* Colors */
+  /* --color-primary-0: #30b182; */
+  --color-primary-0: #309163;
+  --color-primary-1: #236647;
+  --color-primary-foreground: #ffffff;
+
+  --color-accent: #22A8BD;
+  --color-accent-foreground: #ffffff;
+
+  --color-secondary: #1b1c1e;
+  --color-secondary-foreground: #ffffff;
+
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-transparent: #00000000;
+
+  --color-success: #00c950;
+  --color-success-foreground: #ffffff;
+
+  --color-error: #fb2c36;
+  --color-error-foreground: #ffffff;
+
+  --color-warning: #ff6900;
+  --color-warning-foreground: #ffffff;
+
+  /* Fonts */
+  /* --font-instrument-sans: "Instrument Sans", sans-serif; */
+  --font-roobert: "Roobert", sans-serif;
+
+  /* Font sizes */
+  --font-size-xs: 12px; /* 0.75rem */
+  --font-size-sm: 14px; /* 0.875rem */
+  --font-size-base: 16px; /* 1rem */
+  --font-size-lg: 18px; /* 1.125rem */
+  --font-size-xl: 20px; /* 1.25rem */
+  --font-size-2xl: 24px; /* 1.5rem */
+  --font-size-3xl: 30px; /* 1.875rem */
+  --font-size-4xl: 36px; /* 2.25rem */
+  --font-size-5xl: 48px; /* 3rem */
+  --font-size-6xl: 60px; /* 3.75rem */
+
+  /* Line heights (optional) */
+  --line-height-xs: 1rem; /* 16px */
+  --line-height-sm: 1.25rem; /* 20px */
+  --line-height-base: 1.5rem; /* 24px */
+  --line-height-lg: 1.75rem; /* 28px */
+  --line-height-xl: 1.75rem; /* 28px */
+  --line-height-2xl: 2rem; /* 32px */
+  --line-height-3xl: 2.25rem; /* 36px */
+  --line-height-4xl: 2.5rem; /* 40px */
+  --line-height-5xl: 1; /* 1 (unitless, as in Tailwind) */
+  --line-height-6xl: 1; /* 1 (unitless, as in Tailwind) */
+
+  /* Font weights */
+  /* --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700; */
+
+  /* Border radius */
+  /* --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 8px;
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+  --radius-4xl: 48px;
+  --radius-5xl: 64px; */
+
+  /* Spacing */
+  /* --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  --space-4xl: 96px;
+  --space-5xl: 128px; */
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+@theme inline {
+  /* Colors */
+  --color-primary: var(--color-primary);
+  --color-primary-0: var(--color-primary-0);
+  --color-primary-1: var(--color-primary-1);
+  --color-primary-foreground: var(--color-primary-foreground);
+
+  --color-accent: var(--color-accent);
+  --color-accent-foreground: var(--color-accent-foreground);
+  --color-secondary: var(--color-secondary);
+  --color-secondary-foreground: var(--color-secondary-foreground);
+
+  /* --color-white: var(--color-white);
+  --color-black: var(--color-black);
+  --color-transparent: var(--color-transparent);
+
+  --color-success: var(--color-success);
+  --color-success-foreground: var(--color-success-foreground);
+  --color-error: var(--color-error);
+  --color-error-foreground: var(--color-error-foreground);
+  --color-warning: var(--color-warning);
+  --color-warning-foreground: var(--color-warning-foreground); */
+
+  /* Fonts */
+  --font-instrument-sans: var(--font-instrument-sans);
+  --font-roobert: var(--font-roobert);
+
+  /* Font sizes and line heights */
+  /* --text-xs: var(--font-size-xs);
+  --leading-xs: var(--line-height-xs);
+  --text-sm: var(--font-size-sm);
+  --leading-sm: var(--line-height-sm);
+  --text-base: var(--font-size-base);
+  --leading-base: var(--line-height-base);
+  --text-lg: var(--font-size-lg);
+  --leading-lg: var(--line-height-lg);
+  --text-xl: var(--font-size-xl);
+  --leading-xl: var(--line-height-xl);
+  --text-2xl: var(--font-size-2xl);
+  --leading-2xl: var(--line-height-2xl);
+  --text-3xl: var(--font-size-3xl);
+  --leading-3xl: var(--line-height-3xl);
+  --text-4xl: var(--font-size-4xl);
+  --leading-4xl: var(--line-height-4xl);
+  --text-5xl: var(--font-size-5xl);
+  --leading-5xl: var(--line-height-5xl);
+  --text-6xl: var(--font-size-6xl);
+  --leading-6xl: var(--line-height-6xl); */
+
+  /* Font weights */
+  /* --font-weight-normal: var(--font-weight-normal);
+  --font-weight-medium: var(--font-weight-medium);
+  --font-weight-semibold: var(--font-weight-semibold);
+  --font-weight-bold: var(--font-weight-bold); */
+
+  /* Radius */
+  /* --radius-xs: var(--radius-xs);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-2xl: var(--radius-2xl);
+  --radius-3xl: var(--radius-3xl);
+  --radius-4xl: var(--radius-4xl);
+  --radius-5xl: var(--radius-5xl); */
+
+  /* Spacing */
+  /* --space-xs: var(--space-xs);
+  --space-sm: var(--space-sm);
+  --space-md: var(--space-md);
+  --space-lg: var(--space-lg);
+  --space-xl: var(--space-xl);
+  --space-2xl: var(--space-2xl);
+  --space-3xl: var(--space-3xl);
+  --space-4xl: var(--space-4xl);
+  --space-5xl: var(--space-5xl); */
+
+  /* Shadows */
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+}
+
+body {
+  font-family: var(--font-instrument-sans, sans-serif);
+  overflow-x: hidden;
+}
+
+.container {
+  padding: 0 15px;
+  margin: 0 auto;
+  width: clamp(320px, 95%, 1310px);
+  max-width: 1310px;
+}
+
+@media (max-width: 575px) {
+  .container {
+    width: 100%;
+  }
+}
+
+/* Customize Slider */
+.equal-height-slider.slick-slider .slick-list,
+.equal-height-slider.slick-slider .slick-track {
+  height: 100% !important;
+}
+.equal-height-slider.slick-slider .slick-track {
+  display: flex;
+  align-items: stretch;
+}
+
+.equal-height-slider.slick-slider .slick-slide {
+  height: auto !important;
+}
+
+.equal-height-slider.slick-slider .slick-slide > div {
+  height: 100%;
+}
+
+/* Entry Content */
+.entry-content {
+  max-width: 710px;
+  margin: 0 auto;
+  color: #000;
+}
+
+.entry-content h1 {
+  font-size: 3rem; /* 48px */
+  font-weight: 700;
+  margin-bottom: 0.5em;
+  margin-top: 0;
+  line-height: 1.1;
+  color: #000;
+}
+
+.entry-content > div {
+  font-size: 1rem;
+  color: #000;
+  margin-bottom: 2em;
+}
+
+.entry-content h2 {
+  font-size: 1.5rem; /* 24px */
+  font-weight: 700;
+  margin-top: 2.5em;
+  margin-bottom: 0.7em;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.entry-content h3 {
+  font-size: 1.25rem; /* 20px */
+  font-weight: 600;
+  margin-top: 2em;
+  margin-bottom: 0.7em;
+  line-height: 1.2;
+}
+
+.entry-content p {
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.7;
+  margin-bottom: 1.5em;
+  color: #475467;
+}
+
+.entry-content ul,
+.entry-content ol {
+  margin-bottom: 1.5em;
+  padding-left: 1.5em;
+}
+
+.entry-content li {
+  font-size: 1.125rem;
+  margin-bottom: 0.5em;
+  line-height: 1.6;
+  list-style: disc;
+}
+
+.entry-content section,
+.entry-content .container {
+  padding: 0;
+}
+
+/* TipTap Editor Custom Styles */
+.ProseMirror {
+  outline: none !important;
+  border: none !important;
+  min-height: 350px !important;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #111827;
+  padding: 0 !important;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: #9ca3af;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.ProseMirror h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 1rem 0 0.5rem 0;
+  color: #111827;
+}
+
+.ProseMirror h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0.75rem 0 0.5rem 0;
+  color: #111827;
+}
+
+.ProseMirror blockquote {
+  border-left: 3px solid #e5e7eb;
+  margin: 1rem 0;
+  padding-left: 1rem;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.ProseMirror li {
+  margin: 0.25rem 0;
+}
+
+.ProseMirror a {
+  color: #008236;
+  text-decoration: underline;
+}
+
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  margin: 0.5rem 0;
+}
+
+.editor ul {
+  list-style: disc;
+}
+
+.editor ol {
+  list-style: decimal;
+}
+
+.editor-content {
+  max-width: 960px;
+  margin: 0 auto;
+  color: #222;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  font-family: inherit;
+}
+.editor-content h1,
+.editor-content h2,
+.editor-content h3,
+.editor-content h4,
+.editor-content h5,
+.editor-content h6 {
+  font-weight: 600;
+  color: #101828;
+  margin-top: 32px;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.editor-content h1:first-child,
+.editor-content h2:first-child,
+.editor-content h3:first-child,
+.editor-content h4:first-child,
+.editor-content h5:first-child,
+.editor-content h6:first-child {
+  margin-top: 0;
+}
+
+.editor-content > *:last-child {
+  margin-bottom: 0 !important;
+}
+.editor-content h1 {
+  font-size: 48px;
+}
+.editor-content h2 {
+  font-size: 38px;
+}
+.editor-content h3 {
+  font-size: 30px;
+}
+.editor-content h4 {
+  font-size: 24px;
+}
+.editor-content p {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #475467;
+}
+
+.editor-content blockquote {
+  margin: 48px 0;
+  text-align: center;
+  color: #101828;
+  font-weight: 500;
+  font-style: italic;
+  font-size: 24px;
+  background: none;
+  position: relative;
+}
+.editor-content blockquote p {
+  margin-bottom: 32px;
+  text-align: center;
+  font-style: italic;
+  font-size: 24px;
+  color: #101828;
+}
+.editor-content blockquote figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto 0.5em auto;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+.editor-content blockquote figure img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 0.5em;
+  display: block;
+}
+.editor-content blockquote figure figcaption {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+.editor-content blockquote figcaption p,
+.editor-content blockquote figcaption div {
+  margin: 0;
+  font-style: normal;
+  font-size: 16px;
+}
+
+.editor-content blockquote figcaption p:last-child {
+  color: #475467;
+  font-weight: 400;
+}
+.editor-content blockquote figure img {
+  aspect-ratio: 1/1;
+}
+
+.editor-content figure {
+  margin: 48px 0;
+  text-align: center;
+}
+
+.editor-content figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 2.11/1;
+}
+.editor-content img {
+  max-width: 100%;
+  border-radius: 16px;
+  margin: 0 auto 0.5em auto;
+  display: block;
+}
+.editor-content figcaption {
+  color: #475467;
+  font-size: 14px;
+  margin-top: 16px;
+  text-align: start;
+}
+
+.editor-content figcaption a {
+  text-decoration: underline;
+}
+.editor-content ul {
+  list-style: disc;
+}
+.editor-content ol {
+  list-style: decimal;
+}
+.editor-content ul,
+.editor-content ol {
+  margin-bottom: 1.5em;
+  padding-left: 1em;
+}
+.editor-content li {
+  font-size: 18px;
+  margin-bottom: 5px;
+  line-height: 1.6;
+}
+.editor-content .highlighted-content {
+  background: #f9fafb;
+  border-radius: 16px;
+  padding: 32px;
+  margin: 48px 0;
+}
+
+.editor-content .highlighted-content > h2,
+.editor-content .highlighted-content > h3,
+.editor-content .highlighted-content > h4,
+.editor-content .highlighted-content > h5,
+.editor-content .highlighted-content > h6 {
+  margin-top: 0;
+}
+
+@media (max-width: 991px) {
+  .editor-content h1 {
+    font-size: 42px;
+  }
+  .editor-content h2 {
+    font-size: 34px;
+  }
+  .editor-content h3 {
+    font-size: 26px;
+  }
+  .editor-content h4 {
+    font-size: 20px;
+  }
+  .editor-content p {
+    margin-bottom: 16px;
+  }
+  .editor-content blockquote {
+    margin: 32px 0;
+    font-size: 22px;
+  }
+  .editor-content blockquote p {
+    margin-bottom: 24px;
+    font-size: 20px;
+  }
+  .editor-content blockquote figcaption p,
+  .editor-content blockquote figcaption div {
+    font-size: 14px;
+  }
+  .editor-content figure {
+    margin: 32px 0;
+  }
+  .editor-content li {
+    font-size: 16px;
+  }
+  .editor-content .highlighted-content {
+    padding: 24px;
+    margin: 32px 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .editor-content h1 {
+    font-size: 36px;
+  }
+  .editor-content h2 {
+    font-size: 28px;
+  }
+  .editor-content h3 {
+    font-size: 22px;
+  }
+  .editor-content h4 {
+    font-size: 20px;
+  }
+  .editor-content p {
+    font-size: 16px;
+  }
+  .editor-content blockquote {
+    margin: 24px 0;
+    font-size: 20px;
+  }
+  .editor-content blockquote p {
+    margin-bottom: 20px;
+    font-size: 18px;
+  }
+  .editor-content blockquote figcaption p,
+  .editor-content blockquote figcaption div {
+    font-size: 14px;
+  }
+  .editor-content figure {
+    margin: 24px 0;
+  }
+  .editor-content li {
+    font-size: 16px;
+  }
+  .editor-content .highlighted-content {
+    padding: 20px;
+    margin: 32px 0;
+  }
+}
+
+/* Leaflet CSS */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+}
+
+
+.end-marker {
+  width: 16px;
+  height: 16px;
+
+}
+
+.blink {
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 6px rgba(0,0,0,0.4);
+  background-color: green;
+  animation: blinkAnim 0.5s ease-in-out 2;
+}
+
+@keyframes blinkAnim {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.6); opacity: 0.3; }
+  100% { transform: scale(1); opacity: 1; }
+}

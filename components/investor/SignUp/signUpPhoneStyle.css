@@ -1,0 +1,70 @@
+.phone-number .react-tel-input {
+  position: static;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: start;
+  gap: 1rem;
+}
+
+.phone-number .special-label {
+  display: none;
+}
+
+.phone-number .flag-dropdown {
+  position: static !important;
+}
+
+.phone-number .form-control {
+  color: #222222;
+  background-color: #ffffff;
+  font-size: 1rem;
+  line-height: normal;
+  letter-spacing: normal;
+  padding: 12px 14px;
+  width: 100%;
+  height: auto;
+  outline: none;
+  border: 1px solid #d0d5dd;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 2px 0 #1018280d;
+  position: static;
+  transition: border-color 0.3s;
+}
+.phone-number .form-control:focus {
+  /* border-color: #309163; */
+  box-shadow: 0 0 0 1.5px #309163;
+}
+
+.phone-number .flag-dropdown {
+  color: #222222;
+  background-color: #ffffff;
+  font-size: 1rem;
+  line-height: normal;
+  letter-spacing: normal;
+  width: auto;
+  height: auto;
+  outline: none;
+  border: 1px solid #d0d5dd;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 2px 0 #1018280d;
+  position: static;
+  transition: border-color 0.3s;
+}
+.phone-number .flag-dropdown:focus {
+  border-color: #309163;
+}
+
+.phone-number .selected-flag {
+  width: 3.5rem;
+  height: auto;
+  padding: 20px 14px;
+  border-radius: 0.5rem;
+}
+
+.flag-dropdown.open {
+  border-radius: 0.5rem !important;
+}
+.selected-flag.open {
+  border-radius: 0.5rem !important;
+}

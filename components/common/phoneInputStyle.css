@@ -1,0 +1,85 @@
+.phone-number .react-tel-input {
+  position: static;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: start;
+  gap: 1rem;
+}
+
+.phone-number .special-label {
+  display: none;
+}
+
+.phone-number .flag-dropdown {
+  position: static !important;
+}
+
+.phone-number .form-control {
+  color: #222222;
+  background-color: #ffffff;
+  font-size: 1rem;
+  line-height: normal;
+  letter-spacing: normal;
+  padding: 12px 14px;
+  width: 100%;
+  height: auto;
+  outline: none;
+  border: 1px solid #d0d5dd;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 2px 0 #1018280d;
+  position: static;
+  transition: border-color 0.3s;
+}
+.phone-number .form-control:focus {
+  /* border-color: #309163; */
+  box-shadow: 0 0 0 1.5px #309163;
+}
+
+.phone-number .flag-dropdown {
+  color: #222222;
+  background-color: #ffffff;
+  font-size: 1rem;
+  line-height: normal;
+  letter-spacing: normal;
+  width: auto;
+  height: auto;
+  outline: none;
+  border: 1px solid #d0d5dd;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 2px 0 #1018280d;
+  position: static;
+  transition: border-color 0.3s;
+}
+.phone-number .flag-dropdown:focus {
+  border-color: #309163;
+}
+
+.phone-number .selected-flag {
+  width: 3.5rem;
+  height: auto;
+  padding: 20px 14px;
+  border-radius: 0.5rem;
+}
+
+.flag-dropdown.open {
+  border-radius: 0.5rem !important;
+}
+.selected-flag.open {
+  border-radius: 0.5rem !important;
+}
+
+.dashed-border {
+  /* border-style: dashed;
+  border-width: 1px;
+  border-color: #d0d5dd;
+  border-image: repeating-linear-gradient(
+    90deg,
+    #d0d5dd 0 14px,
+    transparent 14px 19px
+  );
+  border-image-slice: 1; */
+
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='4' ry='4' stroke='%23ACB2BCFF' strokeWidth='1' stroke-dasharray='14%2c 9' stroke-dashoffset='8' strokeLinecap='square'/%3e%3c/svg%3e");
+  border-radius: 4px;
+}
