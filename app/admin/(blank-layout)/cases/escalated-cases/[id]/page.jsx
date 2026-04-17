@@ -40,7 +40,7 @@ const page = () => {
     });
 
     const handleLocationUpdate = (data) => {
-      if (data?.case_id !== id) return;
+      if (data?.movementData?.case_id !== id) return;
       console.log("Socket data", data);
       queryClient.setQueryData(["case", id], (old) => {
         if (!old) return old;
