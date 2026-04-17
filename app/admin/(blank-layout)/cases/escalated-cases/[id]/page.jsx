@@ -40,6 +40,7 @@ const page = () => {
     });
 
     const handleLocationUpdate = (data) => {
+      if (data?.movementData?.case_id !== id) return;
       console.log("Socket data", data);
       queryClient.setQueryData(["case", id], (old) => {
         if (!old) return old;
@@ -58,6 +59,7 @@ const page = () => {
     };
 
     const handleUpdate = (data) => {
+      if (data?.case_id !== id) return;
       console.log("Socket status data", data);
 
       showToast(data?.message, "info", "Info");
@@ -74,8 +76,12 @@ const page = () => {
           },
         };
       });
-      if (data?.case_id === id && data?.new_status !== "Escalated") {
-        router.back();
+      if (data?.case_id === id && data?.new_status === "Resolved") {
+        router.push(`/admin/cases/resolved-cases/${id}`);
+      } else if (data?.case_id === id && data?.new_status === "Unresolved") {
+        router.push(`/admin/cases/unresolved-cases/${id}`);
+      } else if (data?.case_id === id && data?.new_status === "False") {
+        router.push(`/admin/cases/false-cases/${id}`);
       }
     };
 
