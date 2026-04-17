@@ -36,14 +36,20 @@ export const useGetUsers = (page, limit, search) => {
   const meta = data?.data?.meta || {};
   return { users, isLoading, error, meta };
 };
-export const useGetAgents = (page, limit, search) => {
+export const useGetAgents = (page, limit, search, status) => {
   const { data, isLoading, error } = useQuery({
-    queryKey: ["agents", page, limit, search],
-    queryFn: () => getAgentsFn({ page, limit, search }),
+    queryKey: ["agents", page, limit, search, status],
+    queryFn: () => getAgentsFn({ page, limit, search, status }),
   });
   useQuery({
-    queryKey: ["agents", page + 1, limit, search],
-    queryFn: () => getAgentsFn({ page: page + 1, limit, search }),
+    queryKey: ["agents", page + 1, limit, search, status],
+    queryFn: () =>
+      getAgentsFn({
+        page: page + 1,
+        limit,
+        search,
+        status,
+      }),
   });
   const agents = data?.data?.data || [];
   const meta = data?.data?.pagination || {};
