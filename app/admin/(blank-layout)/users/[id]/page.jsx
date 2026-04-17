@@ -24,7 +24,7 @@ const UserBody = () => {
 
   const address = [
     user?.address,
-    user?.address_line2,
+    user?.address_line_2,
     user?.city,
     user?.state,
     user?.zip_postal_code,
