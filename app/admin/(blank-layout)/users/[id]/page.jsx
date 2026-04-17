@@ -40,11 +40,12 @@ const UserBody = () => {
     phone: user?.phone,
     image: user?.profile_photo,
     address: address,
-    emergencyContact: {
-      name: user?.emergency_contact_name,
-      relationship: user?.emergency_contact_relationship,
-      email: user?.emergency_contact_email,
-      phone: user?.emergency_phone,
+    emergencyContacts: {
+      contact_name: user?.emergency_contacts?.[0]?.contact_name,
+      relationship: user?.emergency_contacts?.[0]?.relation,
+      email: user?.emergency_contacts?.[0]?.email,
+      phone: user?.emergency_contacts?.[0]?.phone,
+      address: user?.emergency_contacts?.[0]?.address,
     },
   };
   const columns = [
@@ -110,10 +111,11 @@ const UserBody = () => {
           />
 
           <EmergencyContactCard
-            name={userInfo?.emergencyContact?.name}
-            relation={userInfo?.emergencyContact?.relationship}
-            email={userInfo?.emergencyContact?.email}
-            phone={userInfo?.emergencyContact?.phone}
+            name={userInfo?.emergencyContacts?.contact_name}
+            relation={userInfo?.emergencyContacts?.relationship}
+            email={userInfo?.emergencyContacts?.email}
+            phone={userInfo?.emergencyContacts?.phone}
+            address={userInfo?.emergencyContacts?.address}
           />
         </div>
 

@@ -42,6 +42,7 @@ const page = () => {
     });
 
     const handleLocationUpdate = (data) => {
+      if (data?.case_id !== id) return;
       console.log("Socket data", data);
       queryClient.setQueryData(["case", data?.case_id], (old) => {
         if (!old) return old;
