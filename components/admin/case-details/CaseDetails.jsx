@@ -9,9 +9,10 @@ import React from "react";
 import CaseDetailsSkeleton from "./CaseDetailsSkeleton";
 import { formatDateTime } from "@/utils/formatDateTime";
 // import MapWithPath from "@/components/common/map/MapWithPath";
-import TestAudioPlayer from "@/components/TestAudioPlayer";
+// import TestAudioPlayer from "@/components/TestAudioPlayer";
 
 import dynamic from "next/dynamic";
+import LiveAudioV3 from "@/components/audio/LiveAudioV3";
 
 // import WebSocketAudioPlayer from "@/components/WebSocketAudioPlayer";
 
@@ -249,14 +250,14 @@ const CaseDetails = ({ caseDetails, isLoading = true }) => {
                 <div className="bg-white rounded-2xl border border-gray-200 p-5">
                   {/* <h3 className="font-semibold text-lg mb-4">Audio Stream</h3> */}
 
-                  <div className="w-full h-40 sm:h-48 flex items-center justify-center rounded-lg">
+                  <div className="w-full  flex items-center justify-center rounded-lg">
                     {/* <span className="text-gray-400 text-sm">
                     Audio Stream Placeholder
                   </span> */}
                     {caseDetails?.status === "Pending" ||
                     caseDetails?.status === "In Progress" ||
                     caseDetails?.status === "Escalated" ? (
-                      <TestAudioPlayer caseId={caseDetails?.case_id} />
+                      <LiveAudioV3 caseId={caseDetails?.case_id} />
                     ) : (
                       // <AudioPlayer socket={audioData} />
                       <></>
