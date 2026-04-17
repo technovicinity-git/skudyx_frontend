@@ -285,9 +285,9 @@ export default function LiveAudioV3({ caseId }) {
         </div>
         <div className="flex items-center gap-2">
           {/* Elapsed time */}
-          <span className="text-xs font-mono text-gray-400 tabular-nums">
+          {/* <span className="text-xs font-mono text-gray-400 tabular-nums">
             {formatTime(elapsed)}
-          </span>
+          </span> */}
           <span
             className={`text-xs px-2 py-0.5 rounded-full font-medium ${
               isConnected
