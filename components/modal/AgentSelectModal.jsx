@@ -26,7 +26,7 @@ export default function AgentSelectModal({
   const { assignCaseToAgent, isLoading, errorMessage } = useAssignCaseToAgent();
 
   const debouncedSearch = useDebounce(search, 500);
-  const { agents } = useGetAgents(1, 999999, debouncedSearch);
+  const { agents } = useGetAgents(1, 999999, debouncedSearch, "Available");
 
   const handleAssign = () => {
     console.log("Selected Agent:", selectedAgent);
