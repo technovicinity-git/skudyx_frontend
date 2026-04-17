@@ -60,28 +60,35 @@ const page = () => {
       });
     };
 
-    // const handleUpdate = (data) => {
-    //   console.log("Socket data", data);
-    //   // queryClient.invalidateQueries({
-    //   //   queryKey: ["case", id],
-    //   // });
-    //   console.log("Updating case status in cache...", data?.new_status);
-    //   showToast(data?.message, "info", "Info");
-    //   queryClient.setQueryData(["case", id], (old) => {
-    //     if (!old) return old;
-    //     return {
-    //       ...old,
-    //       data: {
-    //         ...old.data,
-    //         data: {
-    //           ...old.data.data,
-    //           status: data?.new_status,
-    //         },
-    //       },
-    //     };
-    //   });
-    //   router.back();
-    // };
+    const handleUpdate = (data) => {
+      if (data?.case_id !== id) return;
+      console.log("Socket data", data);
+      // queryClient.invalidateQueries({
+      //   queryKey: ["case", id],
+      // });
+      console.log("Updating case status in cache...", data?.new_status);
+      showToast(data?.message, "info", "Info");
+      queryClient.setQueryData(["case", id], (old) => {
+        if (!old) return old;
+        return {
+          ...old,
+          data: {
+            ...old.data,
+            data: {
+              ...old.data.data,
+              status: data?.new_status,
+            },
+          },
+        };
+      });
+      if (data?.case_id === id && data?.new_status === "In progress") {
+        router.push(`/admin/cases/inprogress-cases/${id}`);
+      } else if (data?.case_id === id && data?.new_status === "Escalated") {
+        router.push(`/admin/cases/escalated-cases/${id}`);
+      } else if (data?.case_id === id && data?.new_status === "False") {
+        router.push(`/admin/cases/false-cases/${id}`);
+      }
+    };
 
     const handleAccept = (data) => {
       console.log("Case accepted:", data);
@@ -92,9 +99,9 @@ const page = () => {
     socket.on("admin_map_movement", (data) => {
       handleLocationUpdate(data);
     });
-    // socket.on("update_case_status", (data) => {
-    //   handleUpdate(data);
-    // });
+    socket.on("update_case_status", (data) => {
+      handleUpdate(data);
+    });
     socket.on("accept_case", (data) => {
       handleAccept(data);
     });
