@@ -317,7 +317,7 @@ export default function LiveAudioV3({ caseId }) {
         ref={canvasRef}
         width={300}
         height={80}
-        className="w-full rounded-lg bg-black"
+        className="w-full rounded-lg bg-white"
       />
 
       {/* ── Volume controls ── */}
