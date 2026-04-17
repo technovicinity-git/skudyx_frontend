@@ -9,6 +9,7 @@ import { useAssignCaseToAgent } from "@/hook/case";
 import { useToast } from "@/lib/Provider/toastProvider";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import ProfileAvatar from "../common/ImageViewer/ProfileAvatar";
 
 export default function AgentSelectModal({
   isOpen,
@@ -124,7 +125,8 @@ export default function AgentSelectModal({
                       )}
                     </div>
 
-                    <span className="font-medium text-gray-800">
+                    <span className="flex items-center gap-2 font-medium text-gray-800">
+                      <ProfileAvatar src={agent?.profile_photo} size={24} />{" "}
                       {agent?.first_name} {agent?.last_name}
                     </span>
                   </div>
