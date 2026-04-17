@@ -27,12 +27,23 @@ const Map = dynamic(() => import("@/components/common/map/MapWithPath"), {
 const CaseDetails = ({ caseDetails, isLoading = true }) => {
   const [open, setOpen] = React.useState(false);
 
+  const address = [
+    caseDetails?.user_id?.address,
+    caseDetails?.user_id?.address_line_2,
+    caseDetails?.user_id?.city,
+    caseDetails?.user_id?.state,
+    caseDetails?.user_id?.zip_postal_code,
+    caseDetails?.user_id?.country,
+  ]
+    .filter(Boolean)
+    .join(", ");
+
   const user = {
     name: `${caseDetails?.user_id?.first_name || ""} ${caseDetails?.user_id?.last_name || ""}`,
     id: caseDetails?.user_id?.user_id || "",
     email: caseDetails?.user_id?.email || "",
     phone: caseDetails?.user_id?.phone || "",
-    address: caseDetails?.user_id?.address || "",
+    address: address,
     image: caseDetails?.user_id?.profile_photo,
   };
   const emergencyContact = {
