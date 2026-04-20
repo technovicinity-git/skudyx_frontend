@@ -41,8 +41,10 @@ const ResolvedCaseBody = () => {
         <span className="flex items-center gap-2 ">
           {<ProfileAvatar src={row.user_id?.profile_photo} />}
           <div>{row.user_id?.user_id}</div>
-          <div>{row.user_id?.first_name}</div>
-          <div>{row.user_id?.last_name}</div>
+          <div className="flex gap-1">
+            <div>{row.user_id?.first_name}</div>
+            <div>{row.user_id?.last_name}</div>
+          </div>
         </span>
         // </Link>
       ),
@@ -57,8 +59,10 @@ const ResolvedCaseBody = () => {
               <span className="flex items-center gap-2 text-accent cursor-pointer">
                 {<ProfileAvatar src={row.agent_id?.profile_photo} />}
                 <div>{row?.agent_id?.agent_id}</div>
-                <div>{row?.agent_id?.first_name}</div>
-                <div>{row?.agent_id?.last_name}</div>
+                <div className="flex gap-1">
+                  <div>{row?.agent_id?.first_name}</div>
+                  <div>{row?.agent_id?.last_name}</div>
+                </div>
               </span>
             </Link>
           )}
