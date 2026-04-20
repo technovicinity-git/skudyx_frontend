@@ -23,9 +23,11 @@ const UsersBody = () => {
       render: (row) => (
         <div className="flex gap-2">
           <div>{row.user_id}</div>
-          <div>{row.first_name}</div>
-          {/* <div>{row?.middle_name}</div> */}
-          <div>{row.last_name}</div>
+          <div className="flex gap-1">
+            <div>{row.first_name}</div>
+            {/* <div>{row?.middle_name}</div> */}
+            <div>{row.last_name}</div>
+          </div>
         </div>
       ),
     },

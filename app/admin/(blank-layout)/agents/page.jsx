@@ -73,9 +73,11 @@ const AgentBody = () => {
           <span className="flex items-center gap-2 text-accent cursor-pointer">
             {<ProfileAvatar src={row.profile_photo} size={20} />}
             <span>{row.agent_id}</span>
-            <span>{row.first_name}</span>
-            {/* <span>{row.middle_name}</span> */}
-            <span>{row.last_name}</span>
+            <div className="flex gap-1">
+              <span>{row.first_name}</span>
+              {/* <span>{row.middle_name}</span> */}
+              <span>{row.last_name}</span>
+            </div>
           </span>
         </Link>
       ),
