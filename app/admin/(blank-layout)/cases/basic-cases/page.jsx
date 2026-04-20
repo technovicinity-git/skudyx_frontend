@@ -32,8 +32,10 @@ const BasicCaseBody = () => {
       render: (row) => (
         <span className="flex items-center gap-2">
           <div>{row.user_id?.user_id}</div>
-          <div>{row.user_id?.first_name}</div>
-          <div>{row.user_id?.last_name}</div>
+          <div className="flex gap-1">
+            <div>{row.user_id?.first_name}</div>
+            <div>{row.user_id?.last_name}</div>
+          </div>
         </span>
       ),
     },
