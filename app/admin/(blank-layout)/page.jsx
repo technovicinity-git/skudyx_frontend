@@ -94,7 +94,10 @@ const Page = () => {
           <span className="flex items-center gap-2 text-accent cursor-pointer">
             {<ProfileAvatar src={row?.user_id?.profile_photo} size={20} />}
             <div>{row.user_id?.user_id}</div>
-            <div>{row.user_id?.first_name}</div>
+            <div className="flex gap-1">
+              <div>{row.user_id?.first_name}</div>
+              <div>{row.user_id?.last_name}</div>
+            </div>
           </span>
         </Link>
       ),
@@ -126,8 +129,10 @@ const Page = () => {
               <span className="flex items-center gap-2 text-accent cursor-pointer">
                 {<ProfileAvatar src={row.agent_id?.profile_photo} />}
                 <div>{row?.agent_id?.agent_id}</div>
-                <div>{row?.agent_id?.first_name}</div>
-                <div>{row?.agent_id?.last_name}</div>
+                <div className="flex gap-1">
+                  <div>{row?.agent_id?.first_name}</div>
+                  <div>{row?.agent_id?.last_name}</div>
+                </div>
               </span>
             </Link>
           )}
@@ -162,8 +167,10 @@ const Page = () => {
               <span className="flex items-center gap-2 text-accent cursor-pointer">
                 {<ProfileAvatar src={row.agent_id?.profile_photo} />}
                 <div>{row?.agent_id?.agent_id}</div>
-                <div>{row?.agent_id?.first_name}</div>
-                <div>{row?.agent_id?.last_name}</div>
+                <div className="flex gap-1">
+                  <div>{row?.agent_id?.first_name}</div>
+                  <div>{row?.agent_id?.last_name}</div>
+                </div>
               </span>
             </Link>
           )}
@@ -186,9 +193,11 @@ const Page = () => {
           <span className="flex items-center gap-2 text-accent cursor-pointer">
             {<ProfileAvatar src={row.profile_photo} size={20} />}
             <span>{row.agent_id}</span>
-            <span>{row.first_name}</span>
-            {/* <span>{row.middle_name}</span> */}
-            <span>{row.last_name}</span>
+            <div className="flex gap-1">
+              <span>{row.first_name}</span>
+              {/* <span>{row.middle_name}</span> */}
+              <span>{row.last_name}</span>
+            </div>
           </span>
         </Link>
       ),
