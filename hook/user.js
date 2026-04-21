@@ -8,6 +8,7 @@ import {
   getMyProfileFn,
   getUserFn,
   getUsersFn,
+  updateAgentAvailabilityFn,
   updateAgentFn,
   updateAgentStatusFn,
   userStatsFn,
@@ -135,4 +136,16 @@ export const useUpdateAgentStatus = () => {
   });
   const errorMessage = error?.response?.data?.message || "";
   return { updateAgentStatus, isLoading, error, errorMessage };
+};
+
+export const useUpdateAgentAvailability = () => {
+  const {
+    mutate: updateAgentAvailability,
+    isPending: isLoading,
+    error,
+  } = useMutation({
+    mutationFn: (data) => updateAgentAvailabilityFn(data),
+  });
+  const errorMessage = error?.response?.data?.message || "";
+  return { updateAgentAvailability, isLoading, error, errorMessage };
 };
