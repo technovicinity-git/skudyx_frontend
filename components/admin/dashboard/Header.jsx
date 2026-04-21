@@ -1,6 +1,7 @@
 import Button from "@/components/common/Button";
 import ProfileAvatar from "@/components/common/ImageViewer/ProfileAvatar";
 import { useSidebar } from "@/components/common/SidebarContext";
+import AvailabilityStatus from "@/components/modal/AvailabilityStatus";
 import NotificationModal from "@/components/modal/NotificationModal";
 import ProfileModal from "@/components/modal/ProfileModal";
 import { useLogout } from "@/hook/auth";
@@ -39,7 +40,7 @@ const Header = () => {
     if (profile?.role !== basePath) {
       const timer = setTimeout(() => {
         router.push(`/${basePath}/login`);
-      }, 3000); // 3 second delay
+      }, 2000); // 2 second delay
 
       return () => clearTimeout(timer); // cleanup
     }
@@ -67,6 +68,15 @@ const Header = () => {
       </div>
       {/* Right Side: Notification + User */}
       <div className="flex items-center gap-6 ml-auto">
+        {/* Availibility Status */}
+        {profile?.role === "agent" && (
+          <div className="flex items-center gap-2">
+            <AvailabilityStatus
+              account_status={profile?.account_status}
+              availability_status={profile?.availability_status}
+            />
+          </div>
+        )}
         {/* Notification Icon */}
         <div ref={notificationRef} className="relative">
           <button
