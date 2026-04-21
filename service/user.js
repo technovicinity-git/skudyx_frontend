@@ -50,3 +50,6 @@ export const getMyProfileFn = async () => await API.get(`/users/profile`);
 
 export const updateAgentStatusFn = async (data) =>
   await API.patch(`/users/admin/manage-agent-status`, data);
+
+export const updateAgentAvailabilityFn = async (data) =>
+  await API.put(`/users/agent/status`, data);
