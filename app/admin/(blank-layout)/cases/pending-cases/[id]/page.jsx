@@ -107,14 +107,14 @@ const page = () => {
     });
 
     return () => {
-      socket.off("admin_map_movement", handleLocationUpdate);
+      socket.off("admin_map_movement");
       // socket.off("update_case_status");
       socket.off("accept_case");
       socket.off("join_case");
       socket.off("join_admin_dashboard");
       socket.off("connect");
     };
-  }, [[queryClient]]);
+  }, [id]);
 
   const {
     updateCaseStatus,
