@@ -5,7 +5,7 @@ import { useToast } from "@/lib/Provider/toastProvider";
 
 const STATUS_CONFIG = {
   Available: { color: "#22c55e" },
-  Unavailable: { color: "#ef4444" },
+  Unavailable: { color: "#F5D0FE" },
   Away: { color: "#f59e0b" },
 };
 
