@@ -26,6 +26,8 @@ const page = () => {
   const { caseData, isLoading } = useGetCase(id, {
     enabled: !!id,
   });
+  
+  //Test
 
   useEffect(() => {
     if (!id) return;
