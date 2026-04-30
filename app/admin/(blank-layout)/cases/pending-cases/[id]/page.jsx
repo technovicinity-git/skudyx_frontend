@@ -26,7 +26,7 @@ const page = () => {
   const { caseData, isLoading } = useGetCase(id, {
     enabled: !!id,
   });
-  
+
   //Test
 
   useEffect(() => {
@@ -110,7 +110,7 @@ const page = () => {
 
     return () => {
       socket.off("admin_map_movement");
-      // socket.off("update_case_status");
+      socket.off("update_case_status");
       socket.off("accept_case");
       socket.off("join_case");
       socket.off("join_admin_dashboard");
