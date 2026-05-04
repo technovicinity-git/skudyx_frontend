@@ -13,6 +13,7 @@ import { formatDateTime } from "@/utils/formatDateTime";
 
 import dynamic from "next/dynamic";
 import LiveAudioV3 from "@/components/audio/LiveAudioV3";
+import ZegoAudioListen from "@/components/audio/ZegoAudioListen";
 
 // import WebSocketAudioPlayer from "@/components/WebSocketAudioPlayer";
 
@@ -258,23 +259,41 @@ const CaseDetails = ({ caseDetails, isLoading = true }) => {
               {caseDetails?.status === "Pending" ||
               caseDetails?.status === "In Progress" ||
               caseDetails?.status === "Escalated" ? (
-                <div className="bg-white rounded-2xl border border-gray-200 p-5">
-                  {/* <h3 className="font-semibold text-lg mb-4">Audio Stream</h3> */}
+                <>
+                  <div className="bg-white rounded-2xl border border-gray-200 p-5">
+                    {/* <h3 className="font-semibold text-lg mb-4">Audio Stream</h3> */}
 
-                  <div className="w-full  flex items-center justify-center rounded-lg">
-                    {/* <span className="text-gray-400 text-sm">
+                    <div className="w-full  flex items-center justify-center rounded-lg">
+                      {/* <span className="text-gray-400 text-sm">
                     Audio Stream Placeholder
                   </span> */}
-                    {caseDetails?.status === "Pending" ||
-                    caseDetails?.status === "In Progress" ||
-                    caseDetails?.status === "Escalated" ? (
-                      <LiveAudioV3 caseId={caseDetails?.case_id} />
-                    ) : (
-                      // <AudioPlayer socket={audioData} />
-                      <></>
-                    )}
+                      {caseDetails?.status === "Pending" ||
+                      caseDetails?.status === "In Progress" ||
+                      caseDetails?.status === "Escalated" ? (
+                        <LiveAudioV3 caseId={caseDetails?.case_id} />
+                      ) : (
+                        // <AudioPlayer socket={audioData} />
+                        <></>
+                      )}
+                    </div>
                   </div>
-                </div>
+                  <div className="bg-white rounded-2xl border border-gray-200 p-5">
+                    {/* <h3 className="font-semibold text-lg mb-4">Audio Stream</h3> */}
+
+                    <div className="w-full  flex items-center justify-center rounded-lg">
+                      {/* <span className="text-gray-400 text-sm">
+                    Audio Stream Placeholder
+                  </span> */}
+                      {caseDetails?.status === "Pending" ||
+                      caseDetails?.status === "In Progress" ||
+                      caseDetails?.status === "Escalated" ? (
+                        <ZegoAudioListen />
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                  </div>
+                </>
               ) : (
                 <></>
               )}
