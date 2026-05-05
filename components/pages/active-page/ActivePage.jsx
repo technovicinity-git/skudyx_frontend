@@ -37,7 +37,7 @@ const ActiveCase = () => {
   const { activeCase } = useGetAgentActiveCase();
 
   const { caseData, isLoading } = useGetCase(activeCase?.case_id, {
-    // enabled: !!activeCase?.case_id,
+    enabled: !!activeCase?.case_id,
     retry: 1,
   });
 

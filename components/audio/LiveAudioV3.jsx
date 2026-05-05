@@ -100,6 +100,7 @@ export default function LiveAudioV3({ caseId }) {
 
   // ─── Scheduled playback ───────────────────────────────────────────────────
   const playBase64Audio = useCallback(async (base64Data) => {
+    console.log("🎵 Playing chunk:", base64Data.slice(0, 30) + "...");
     try {
       const ctx = audioContextRef.current;
       if (!ctx) return;

@@ -62,7 +62,7 @@ export default function AvailabilityStatus({
       >
         <span
           className="w-2 h-2 rounded-full flex-shrink-0"
-          style={{ background: STATUS_CONFIG[current].color }}
+          style={{ background: STATUS_CONFIG[current]?.color ?? "#215fbb" }}
         />
         {current}
         <ChevronDown
@@ -94,7 +94,7 @@ export default function AvailabilityStatus({
               >
                 <span
                   className="w-2 h-2 rounded-full flex-shrink-0"
-                  style={{ background: color }}
+                  style={{ background: color ?? "#215fbb" }}
                 />
                 <span className="flex-1">{status}</span>
 
