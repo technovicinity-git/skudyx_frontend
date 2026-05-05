@@ -18,6 +18,10 @@ export default function AvailabilityStatus({
   const ref = useRef(null);
   const { showToast } = useToast();
 
+  useEffect(() => {
+    setCurrent(availability_status);
+  }, [availability_status]);
+
   const { updateAgentAvailability, isLoading, errorMessage } =
     useUpdateAgentAvailability();
 

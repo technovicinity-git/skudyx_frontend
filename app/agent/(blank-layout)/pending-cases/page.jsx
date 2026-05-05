@@ -87,6 +87,10 @@ const PendingCaseBody = () => {
     acceptCase(data, {
       onSuccess: () => {
         showToast("Case accepted successfully", "success", "Success");
+
+        queryClient.invalidateQueries({
+          queryKey: ["myProfile"],
+        });
         router.push("/agent/active-case");
       },
       onError: () => {
