@@ -31,6 +31,7 @@ export const useGetCase = (id) => {
   const { data, isLoading, error } = useQuery({
     queryKey: ["case", id],
     queryFn: () => getCaseFn(id),
+    enabled: !!id,
     retry: 1,
   });
   const caseData = data?.data?.data || null;
