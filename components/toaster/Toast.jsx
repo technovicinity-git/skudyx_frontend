@@ -52,17 +52,17 @@ const Toast = ({ open, onClose, message, type, title }) => {
           {/* Your logo - replace with your actual logo path */}
           <Box
             sx={{
-              width: 24,
-              height: 24,
+              width: 44,
+              height: 44,
               position: "relative",
               alignSelf: "flex-start",
+              flexShrink: 0,
             }}
           >
             <Image
-              src={"/assets/images/logo-small.png"}
+              src={"/assets/images/small-logo.png"}
               alt="Company Logo"
-              width={24}
-              height={24}
+              fill
               style={{ objectFit: "contain" }}
             />
           </Box>
