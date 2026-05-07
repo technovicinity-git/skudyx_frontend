@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
-import { useUpdateAgentAvailability } from "@/hook/user";
+import { useGetMyProfile, useUpdateAgentAvailability } from "@/hook/user";
 import { useToast } from "@/lib/Provider/toastProvider";
 
 const STATUS_CONFIG = {
@@ -9,18 +9,18 @@ const STATUS_CONFIG = {
   Away: { color: "#f59e0b" },
 };
 
-export default function AvailabilityStatus({
-  account_status,
-  availability_status,
-}) {
+export default function AvailabilityStatus({ account_status }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [current, setCurrent] = useState(availability_status);
+  const [current, setCurrent] = useState("Available");
   const ref = useRef(null);
   const { showToast } = useToast();
 
+  const { profile, isLoading: profileLoading } = useGetMyProfile();
+
   useEffect(() => {
-    setCurrent(availability_status);
-  }, [availability_status]);
+    if (profileLoading) return;
+    setCurrent(profile?.availability_status);
+  }, [profile, profileLoading]);
 
   const { updateAgentAvailability, isLoading, errorMessage } =
     useUpdateAgentAvailability();
