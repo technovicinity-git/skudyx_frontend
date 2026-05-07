@@ -74,7 +74,9 @@ const ActiveCase = () => {
 
     const handleUpdate = (data) => {
       if (data?.case_id !== activeCase?.case_id) return;
-      queryClient.invalidateQueries(["myProfile"]);
+      queryClient.invalidateQueries({
+        queryKey: ["myProfile"],
+      });
       console.log("Socket status update data", data);
       queryClient.invalidateQueries({
         queryKey: ["case", activeCase?.case_id],
@@ -135,7 +137,9 @@ const ActiveCase = () => {
           showToast("Case marked as false successfully", "success", "Success");
           router.push("/agent/pending-cases");
           setFalseOpen(false);
-          queryClient.invalidateQueries(["myProfile"]);
+          queryClient.invalidateQueries({
+            queryKey: ["myProfile"],
+          });
         },
         onError: () => {
           showToast(
@@ -173,6 +177,9 @@ const ActiveCase = () => {
     updateCaseStatus(data, {
       onSuccess: () => {
         showToast(`Case ${status} successfully`, "success", "Success");
+        queryClient.invalidateQueries({
+          queryKey: ["myProfile"],
+        });
         router.push("/agent/pending-cases");
         setStatusModalOpen(false);
       },
