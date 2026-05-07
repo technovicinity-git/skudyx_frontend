@@ -28,12 +28,14 @@ const CaseSummary = () => {
         </Select>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
         <SummaryCard title="Pending Cases" value={caseStats?.Pending} />
         <SummaryCard title="In Progress Cases" value={caseStats?.In_Progress} />
         <SummaryCard title="Escalated Cases" value={caseStats?.Escalated} />
         <SummaryCard title="Resolved Cases" value={caseStats?.Resolved} />
         <SummaryCard title="Unresolved Cases" value={caseStats?.Unresolved} />
+        <SummaryCard title="False Cases" value={caseStats?.False} />
+        <SummaryCard title="Basic Cases" value={caseStats?.Basic ?? 0} />
       </div>
     </div>
   );

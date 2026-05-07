@@ -15,7 +15,7 @@ const BasicCaseBody = () => {
   const debouncedSearch = useDebounce(search, 500);
   const { cases, meta, isLoading } = useGetCases(
     page,
-    "Escalated",
+    "Basic",
     limit,
     debouncedSearch,
   );
