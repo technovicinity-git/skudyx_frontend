@@ -278,18 +278,16 @@ export default function LiveAudioV3({ caseId }) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span
-            className={`w-2.5 h-2.5 rounded-full ${statusColor} ${isLive ? "animate-pulse" : ""}`}
+            className={`w-2.5 h-2.5 rounded-full bg-green-500 ${isLive ? "animate-pulse" : ""}`}
           />
-          <h2 className="font-semibold">
-            {isLive ? "Live Audio" : "Audio Player"}
-          </h2>
+          <h2 className="font-semibold">{"Live Audio"}</h2>
         </div>
         <div className="flex items-center gap-2">
           {/* Elapsed time */}
           {/* <span className="text-xs font-mono text-gray-400 tabular-nums">
             {formatTime(elapsed)}
           </span> */}
-          <span
+          {/* <span
             className={`text-xs px-2 py-0.5 rounded-full font-medium ${
               isConnected
                 ? isSenderPresent
@@ -299,7 +297,7 @@ export default function LiveAudioV3({ caseId }) {
             }`}
           >
             {statusLabel}
-          </span>
+          </span> */}
         </div>
       </div>
 
