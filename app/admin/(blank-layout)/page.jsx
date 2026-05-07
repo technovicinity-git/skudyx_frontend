@@ -202,12 +202,6 @@ const Page = () => {
         </Link>
       ),
     },
-
-    {
-      label: "Action",
-      accessor: "action",
-      render: () => <p className="font-bold">...</p>,
-    },
   ];
 
   return (
