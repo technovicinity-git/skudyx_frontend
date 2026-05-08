@@ -34,30 +34,68 @@ const endIcon = new L.Icon({
 });
 
 // Component to render dots for each coordinate
+// const RouteDots = ({ route }) => {
+//   if (!route?.length) return null;
+
+//   return (
+//     <>
+//       {route.map((position, index) => (
+//         <Marker
+//           key={`dot-${index}`}
+//           position={position}
+//           icon={L.divIcon({
+//             className: "route-dot",
+//             html: `<div style="
+//               width: 8px;
+//               height: 8px;
+//               background-color: #3b82f6;
+//               border-radius: 50%;
+//               border: 1px solid white;
+//               box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+//             "></div>`,
+//             iconSize: [8, 8],
+//             iconAnchor: [4, 4],
+//           })}
+//         />
+//       ))}
+//     </>
+//   );
+// };
+
+const getAngle = (from, to) => {
+  const dy = to[0] - from[0];
+  const dx = to[1] - from[1];
+  return (Math.atan2(dx, dy) * 180) / Math.PI;
+};
+
 const RouteDots = ({ route }) => {
   if (!route?.length) return null;
 
   return (
     <>
-      {route.map((position, index) => (
-        <Marker
-          key={`dot-${index}`}
-          position={position}
-          icon={L.divIcon({
-            className: "route-dot",
-            html: `<div style="
-              width: 8px;
-              height: 8px;
-              background-color: #3b82f6;
-              border-radius: 50%;
-              border: 1px solid white;
-              box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-            "></div>`,
-            iconSize: [8, 8],
-            iconAnchor: [4, 4],
-          })}
-        />
-      ))}
+      {route.map((position, index) => {
+        // Calculate angle from previous point to next point
+        const from = route[index - 1] ?? position;
+        const to = route[index + 1] ?? position;
+        const angle = getAngle(from, to);
+
+        return (
+          <Marker
+            key={`arrow-${index}`}
+            position={position}
+            icon={L.divIcon({
+              className: "route-arrow",
+              html: `<div style="transform: rotate(${angle}deg); display:flex; align-items:center; justify-content:center;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="#119527">
+                  <polygon points="12,2 22,22 12,17 2,22" />
+                </svg>
+              </div>`,
+              iconSize: [12, 12],
+              iconAnchor: [6, 6],
+            })}
+          />
+        );
+      })}
     </>
   );
 };
