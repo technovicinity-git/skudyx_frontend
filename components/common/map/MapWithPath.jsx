@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 import {
   MapContainer,
   Marker,
-  Polyline,
+  // Polyline,
   Popup,
   TileLayer,
 } from "react-leaflet";
@@ -13,6 +13,7 @@ import L from "leaflet";
 import markerIcon2x from "../../../public/assets/images/marker-icon-2x.png";
 import markerIcon from "../../../public/assets/images/marker-icon.png";
 import markerShadow from "../../../public/assets/images/marker-shadow.png";
+import PolylineWithArrows from "./PolyLineWithArrows";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -62,43 +63,43 @@ const endIcon = new L.Icon({
 //   );
 // };
 
-const getAngle = (from, to) => {
-  const dy = to[0] - from[0];
-  const dx = to[1] - from[1];
-  return (Math.atan2(dx, dy) * 180) / Math.PI;
-};
+// const getAngle = (from, to) => {
+//   const dy = to[0] - from[0];
+//   const dx = to[1] - from[1];
+//   return (Math.atan2(dx, dy) * 180) / Math.PI;
+// };
 
-const RouteDots = ({ route }) => {
-  if (!route?.length) return null;
+// const RouteDots = ({ route }) => {
+//   if (!route?.length) return null;
 
-  return (
-    <>
-      {route.map((position, index) => {
-        // Calculate angle from previous point to next point
-        const from = route[index - 1] ?? position;
-        const to = route[index + 1] ?? position;
-        const angle = getAngle(from, to);
+//   return (
+//     <>
+//       {route.map((position, index) => {
+//         // Calculate angle from previous point to next point
+//         const from = route[index - 1] ?? position;
+//         const to = route[index + 1] ?? position;
+//         const angle = getAngle(from, to);
 
-        return (
-          <Marker
-            key={`arrow-${index}`}
-            position={position}
-            icon={L.divIcon({
-              className: "route-arrow",
-              html: `<div style="transform: rotate(${angle}deg); display:flex; align-items:center; justify-content:center;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="#119527">
-                  <polygon points="12,2 22,22 12,17 2,22" />
-                </svg>
-              </div>`,
-              iconSize: [12, 12],
-              iconAnchor: [6, 6],
-            })}
-          />
-        );
-      })}
-    </>
-  );
-};
+//         return (
+//           <Marker
+//             key={`arrow-${index}`}
+//             position={position}
+//             icon={L.divIcon({
+//               className: "route-arrow",
+//               html: `<div style="transform: rotate(${angle}deg); display:flex; align-items:center; justify-content:center;">
+//                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="#ACCEFF">
+//                   <polygon points="12,2 22,22 12,17 2,22" />
+//                 </svg>
+//               </div>`,
+//               iconSize: [12, 12],
+//               iconAnchor: [6, 6],
+//             })}
+//           />
+//         );
+//       })}
+//     </>
+//   );
+// };
 
 const MapContent = ({ route }) => {
   const [blink, setBlink] = useState(false);
@@ -126,8 +127,9 @@ const MapContent = ({ route }) => {
       style={{ height: "100%", width: "100%" }}
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      <Polyline positions={route} />
-      <RouteDots route={route} />
+      {/* <Polyline positions={route} /> */}
+      <PolylineWithArrows route={route} />
+      {/* <RouteDots route={route} /> */}
       <FitBounds route={route} />
       <Marker
         position={route[route.length - 1]}
