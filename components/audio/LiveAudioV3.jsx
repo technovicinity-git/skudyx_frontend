@@ -195,7 +195,7 @@ export default function LiveAudioV3({ caseId }) {
     if (!caseId) return;
     initAudioContext();
 
-    const wsUrl = "wss://skudyx-backend-c8do.onrender.com/ws/audio-stream";
+    const wsUrl = "wss://skudyx-backend-thtu.onrender.com/ws/audio-stream";
     const ws = new WebSocket(wsUrl);
     wsRef.current = ws;
 
