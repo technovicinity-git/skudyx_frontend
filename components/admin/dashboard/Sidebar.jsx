@@ -5,6 +5,7 @@ import { useSidebar } from "@/components/common/SidebarContext";
 import {
   HomeIcon,
   ManagementIcon,
+  OrdersIcon,
   QuestionCircleIcon,
   SettingsIcon,
   UsersIcon,
@@ -204,6 +205,20 @@ const Sidebar = ({ basePath = "admin" }) => {
             ))}
           </ul>
         </nav>
+        {basePath === "admin" && (
+          <div className={`px-4 py-2 `}>
+            <Link href={`/${basePath}/orders`}>
+              <div
+                className={
+                  "w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-base font-medium cursor-pointer text-[#8A8A8A] hover:bg-[#406DA41A] hover:text-black"
+                }
+              >
+                {OrdersIcon}
+                Orders
+              </div>
+            </Link>
+          </div>
+        )}
         {basePath === "admin" && (
           <div className={`px-4 py-2 `}>
             <Link href={`/${basePath}/settings`}>
