@@ -1,5 +1,6 @@
 "use client";
 import Table from "@/components/admin/dashboard/Table";
+import OrderStatus from "@/components/common/status/OrderStatus";
 import SearchInput from "@/components/search/SearchInput";
 import { useDebounce } from "@/hook/debounce";
 import { getOrders } from "@/hook/order";
@@ -20,29 +21,34 @@ const OrderList = () => {
   const columns = [
     {
       label: "Order ID",
-      accessor: "order_id",
+      accessor: "orderId",
       render: (row) => (
-        <Link href={`/admin/orders/${row.order_id}`}>
-          <p className="text-accent">{row.order_id}</p>
+        <Link href={`/admin/orders/${row.orderId}`}>
+          <p className="text-accent">{row.orderId}</p>
         </Link>
       ),
     },
     {
-      label: "User",
-      accessor: "user.name",
-      render: (row) => <p>{row.user.name}</p>,
-    },
-
-    {
-      label: "Date and Time",
-      accessor: "createdAt",
-      render: (row) => <p>{formatDateTime(row.createdAt)}</p>,
+      label: "User ID",
+      accessor: "userId",
+      render: (row) => (
+        <p>
+          <span className="flex items-center gap-2">
+            <div>{row?.userId?._id}</div>
+          </span>
+        </p>
+      ),
     },
 
     {
       label: "Status",
       accessor: "status",
-      render: (row) => <p>{row.status}</p>,
+      render: (row) => <OrderStatus status={row.status} />,
+    },
+    {
+      label: "Date and Time",
+      accessor: "createdAt",
+      render: (row) => <p>{formatDateTime(row.createdAt)}</p>,
     },
   ];
   return (

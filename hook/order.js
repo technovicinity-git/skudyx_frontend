@@ -1,5 +1,5 @@
-import { getOrderFn, getOrdersFn } from "@/service/order";
-import { useQuery } from "@tanstack/react-query";
+import { getOrderFn, getOrdersFn, updateOrderStatusFn } from "@/service/order";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const getOrder = (id) => {
   const { data, isLoading, error } = useQuery({
@@ -19,4 +19,16 @@ export const getOrders = (page, limit, search) => {
   const orders = data?.data?.data || [];
   const meta = data?.data?.meta || {};
   return { orders, isLoading, error, meta };
+};
+
+export const updateOrderStatus = async () => {
+  const {
+    mutate: updateStatus,
+    isPending: isLoading,
+    error,
+  } = useMutation({
+    mutationFn: (id, status) => updateOrderStatusFn(id, status),
+  });
+  const errorMessage = error?.response?.data?.message || null;
+  return { updateStatus, isLoading, error, errorMessage };
 };
