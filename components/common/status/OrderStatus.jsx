@@ -1,7 +1,7 @@
 import React from "react";
 
 const ORDER_STATUS_STYLES = {
-  Pending: "bg-yellow-200 text-yellow-800",
+  Placed: "bg-yellow-200 text-yellow-800",
   Confirmed: "bg-blue-200 text-blue-800",
   Shipped: "bg-indigo-200 text-indigo-800",
   Delivered: "bg-green-200 text-green-800",
