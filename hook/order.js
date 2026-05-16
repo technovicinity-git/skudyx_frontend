@@ -21,13 +21,13 @@ export const getOrders = (page, limit, search) => {
   return { orders, isLoading, error, meta };
 };
 
-export const updateOrderStatus = async () => {
+export const updateOrderStatus = () => {
   const {
     mutate: updateStatus,
     isPending: isLoading,
     error,
   } = useMutation({
-    mutationFn: (id, status) => updateOrderStatusFn(id, status),
+    mutationFn: ({ id, status }) => updateOrderStatusFn(id, status),
   });
   const errorMessage = error?.response?.data?.message || null;
   return { updateStatus, isLoading, error, errorMessage };
