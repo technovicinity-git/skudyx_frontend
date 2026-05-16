@@ -1,16 +1,12 @@
 "use client";
 
-import Button from "@/components/common/Button";
-// import VictimInformationCard from "@/components/common/Card/VictimInformationCard";
 import DetailsHeader from "@/components/common/DetailsHeader";
-import OrderStatus from "@/components/common/status/OrderStatus";
 import UpdateOrderStatus from "@/components/modal/OrderStatusUpdate";
-import { getOrder, updateOrderStatus } from "@/hook/order";
-import { useToast } from "@/lib/Provider/toastProvider";
+import { getOrder } from "@/hook/order";
+
 import { formatDateTime } from "@/utils/formatDateTime";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
-import { useState } from "react";
 
 // Loading Skeleton Component
 const OrderDetailsSkeleton = () => {
@@ -75,136 +71,11 @@ const OrderDetailsSkeleton = () => {
   );
 };
 
-// Status Update Modal Component
-const StatusUpdateModal = ({
-  isOpen,
-  onClose,
-  currentStatus,
-  onUpdate,
-  isUpdating,
-}) => {
-  const [selectedStatus, setSelectedStatus] = useState(currentStatus);
-
-  const statusOptions = [
-    {
-      value: "Pending",
-      label: "Pending",
-      color: "bg-yellow-100 text-yellow-800",
-    },
-    {
-      value: "Confirmed",
-      label: "Confirmed",
-      color: "bg-blue-100 text-blue-800",
-    },
-    {
-      value: "Shipped",
-      label: "Shipped",
-      color: "bg-purple-100 text-purple-800",
-    },
-    {
-      value: "Delivered",
-      label: "Delivered",
-      color: "bg-green-100 text-green-800",
-    },
-    {
-      value: "Cancelled",
-      label: "Cancelled",
-      color: "bg-red-100 text-red-800",
-    },
-    { value: "Failed", label: "Failed", color: "bg-gray-100 text-gray-800" },
-  ];
-
-  if (!isOpen) return null;
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-opacity-50">
-      <div className="bg-white rounded-xl border border-gray-200 shadow-xl w-full max-w-md mx-4">
-        <div className="flex justify-between items-center p-6">
-          <h2 className="text-xl font-semibold text-gray-800">
-            Update Order Status
-          </h2>
-          <Button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </Button>
-        </div>
-
-        <div className="p-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Select New Status
-          </label>
-          <select
-            value={selectedStatus}
-            onChange={(e) => setSelectedStatus(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-950"
-          >
-            {statusOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-
-          {currentStatus === selectedStatus && (
-            <p className="mt-2 text-sm text-yellow-600">
-              This is the current status. Select a different status to update.
-            </p>
-          )}
-        </div>
-
-        <div className="flex justify-end gap-3 py-3 px-6 rounded-xl">
-          <Button onClick={onClose} variant="outline">
-            Cancel
-          </Button>
-          <Button
-            onClick={() => onUpdate(selectedStatus)}
-            disabled={isUpdating || selectedStatus === currentStatus}
-            variant="solid"
-          >
-            {isUpdating ? "Updating..." : "Update Status"}
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const OrderDetailsPage = () => {
   const { id } = useParams();
   const { order, isLoading } = getOrder(id);
-  const { updateStatus, isLoading: isUpdating } = updateOrderStatus();
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const queryClient = useQueryClient();
-  const { showToast } = useToast();
-
-  const handleStatusUpdate = (newStatus) => {
-    console.log("Updating status to:", newStatus);
-    updateStatus(
-      { id, status: newStatus },
-      {
-        onSuccess: () => {
-          setIsModalOpen(false);
-          queryClient.invalidateQueries(["order", id]);
-          showToast("Order status updated successfully.", "success", "Updated");
-        },
-      },
-    );
-  };
 
   if (isLoading) {
     return <OrderDetailsSkeleton />;
@@ -222,97 +93,52 @@ const OrderDetailsPage = () => {
     );
   }
 
-  // Prepare user information for VictimInformationCard
-  // const userInfo = {
-  //   name: `${order.userId?.first_name || ""} ${order.userId?.last_name || ""}`.trim(),
-  //   userCode: order.orderId,
-  //   email: order.userId?.email,
-  //   phone: order.userId?.phone,
-  //   address: order.userId?.address,
-  //   profile_photo: order.userId?.profile_photo,
-  //   status: order.subscriptionPlan,
-  // };
-
   return (
     <div className="">
       {/* Header */}
       <DetailsHeader title="Order" id={order.orderId} />
 
       <div className="max-w-7xl mx-auto space-y-6 flex flex-col items-center justify-center gap-4 py-6 px-4 md:px-8 ">
-        {/* Order Information Card */}
-        {
-          // userInfo?.email ? (
-          //   <VictimInformationCard
-          //     title="Order Information"
-          //     name={userInfo.name}
-          //     status={order.status}
-          //     statusColor={
-          //       order.status === "Delivered"
-          //         ? "green"
-          //         : order.status === "Cancelled" || order.status === "Failed"
-          //           ? "red"
-          //           : order.status === "Shipped"
-          //             ? "purple"
-          //             : order.status === "Confirmed"
-          //               ? "blue"
-          //               : "yellow"
-          //     }
-          //     userCode={userInfo.userCode}
-          //     email={userInfo.email}
-          //     phone={userInfo.phone}
-          //     address={userInfo.address}
-          //     image={userInfo.profile_photo}
-          //     onEdit={() => setIsModalOpen(true)}
-          //   />
-          // ) : (
-          <div className="w-full bg-white rounded-md p-6 border border-gray-200">
-            <div className="flex justify-between items-start">
-              <div>
-                <h2 className="text-lg font-semibold mb-4">
-                  Order Information
-                </h2>
-                <div className="space-y-2">
-                  <p>
-                    <span className="font-medium">Order ID:</span>{" "}
-                    {order.orderId}
-                  </p>
-                  <p>
-                    <span className="font-medium">User ID:</span>{" "}
-                    {order.userId?._id}
-                  </p>
-                  {/* <p>
+        <div className="w-full bg-white rounded-md p-6 border border-gray-200">
+          <div className="flex justify-between items-start">
+            <div>
+              <h2 className="text-lg font-semibold mb-4">Order Information</h2>
+              <div className="space-y-2">
+                <p>
+                  <span className="font-medium">Order ID:</span> {order.orderId}
+                </p>
+                <p>
+                  <span className="font-medium">User ID:</span>{" "}
+                  {order.userId?._id}
+                </p>
+                {/* <p>
                     <span className="font-medium">Status:</span>{" "}
                     <OrderStatus status={order.status} />
                   </p> */}
-                  <p>
-                    <span className="font-medium">Subscription Plan:</span>{" "}
-                    {order.subscriptionPlan}
-                  </p>
-                  <p>
-                    <span className="font-medium">Order Date:</span>{" "}
-                    {formatDateTime(order.orderCreateDate)}
-                  </p>
-                  <p>
-                    <span className="font-medium">Created By:</span>{" "}
-                    {order.createdBy}
-                  </p>
-                </div>
+                <p>
+                  <span className="font-medium">Subscription Plan:</span>{" "}
+                  {order.subscriptionPlan}
+                </p>
+                <p>
+                  <span className="font-medium">Order Date:</span>{" "}
+                  {formatDateTime(order.orderCreateDate)}
+                </p>
+                <p>
+                  <span className="font-medium">Created By:</span>{" "}
+                  {order.createdBy}
+                </p>
               </div>
-              <div className="flex items-center gap-2">
-                Status:
-                <UpdateOrderStatus
-                  id={id}
-                  currentStatus={order.status}
-                  queryClient={queryClient}
-                />
-              </div>
-              {/* <Button onClick={() => setIsModalOpen(true)} variant="solid">
-                Update Status
-              </Button> */}
+            </div>
+            <div className="flex items-center gap-2">
+              Status:
+              <UpdateOrderStatus
+                id={id}
+                currentStatus={order.status}
+                queryClient={queryClient}
+              />
             </div>
           </div>
-          // )
-        }
+        </div>
 
         {/* Delivery Address Card */}
         {order.deliveryAddress && (
@@ -381,15 +207,6 @@ const OrderDetailsPage = () => {
           </div>
         </div>
       </div>
-
-      {/* Status Update Modal */}
-      <StatusUpdateModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        currentStatus={order.status}
-        onUpdate={handleStatusUpdate}
-        isUpdating={isUpdating}
-      />
     </div>
   );
 };

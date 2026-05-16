@@ -6,11 +6,11 @@ import { useToast } from "@/lib/Provider/toastProvider";
 import OrderStatus from "../common/status/OrderStatus";
 
 const ORDER_STATUSES = [
-  "Pending",
+  "Placed",
   "Confirmed",
   "Shipped",
-  "Cancelled",
-  "Failed",
+  // "Cancelled",
+  // "Failed",
 ];
 
 export default function UpdateOrderStatus({ id, currentStatus, queryClient }) {
