@@ -1,4 +1,5 @@
 "use client";
+import React, { useState } from "react";
 import Table from "@/components/admin/dashboard/Table";
 import OrderStatus from "@/components/common/status/OrderStatus";
 import SearchInput from "@/components/search/SearchInput";
@@ -6,7 +7,6 @@ import { useDebounce } from "@/hook/debounce";
 import { getOrders } from "@/hook/order";
 import { formatDateTime } from "@/utils/formatDateTime";
 import Link from "next/link";
-import React, { useState } from "react";
 
 const OrderList = () => {
   const [search, setSearch] = useState("");
@@ -32,11 +32,9 @@ const OrderList = () => {
       label: "User ID",
       accessor: "userId",
       render: (row) => (
-        <p>
-          <span className="flex items-center gap-2">
-            <div>{row?.userId?._id}</div>
-          </span>
-        </p>
+        <span className="flex items-center gap-2">
+          <div>{row?.userId?._id}</div>
+        </span>
       ),
     },
 

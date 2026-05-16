@@ -4,8 +4,11 @@ import Button from "@/components/common/Button";
 // import VictimInformationCard from "@/components/common/Card/VictimInformationCard";
 import DetailsHeader from "@/components/common/DetailsHeader";
 import OrderStatus from "@/components/common/status/OrderStatus";
+import UpdateOrderStatus from "@/components/modal/OrderStatusUpdate";
 import { getOrder, updateOrderStatus } from "@/hook/order";
+import { useToast } from "@/lib/Provider/toastProvider";
 import { formatDateTime } from "@/utils/formatDateTime";
+import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 
@@ -186,12 +189,21 @@ const OrderDetailsPage = () => {
   const { updateStatus, isLoading: isUpdating } = updateOrderStatus();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleStatusUpdate = async (newStatus) => {
-    updateStatus(id, newStatus, {
-      onSuccess: () => {
-        setIsModalOpen(false);
+  const queryClient = useQueryClient();
+  const { showToast } = useToast();
+
+  const handleStatusUpdate = (newStatus) => {
+    console.log("Updating status to:", newStatus);
+    updateStatus(
+      { id, status: newStatus },
+      {
+        onSuccess: () => {
+          setIsModalOpen(false);
+          queryClient.invalidateQueries(["order", id]);
+          showToast("Order status updated successfully.", "success", "Updated");
+        },
       },
-    });
+    );
   };
 
   if (isLoading) {
@@ -268,10 +280,10 @@ const OrderDetailsPage = () => {
                     <span className="font-medium">User ID:</span>{" "}
                     {order.userId?._id}
                   </p>
-                  <p>
+                  {/* <p>
                     <span className="font-medium">Status:</span>{" "}
                     <OrderStatus status={order.status} />
-                  </p>
+                  </p> */}
                   <p>
                     <span className="font-medium">Subscription Plan:</span>{" "}
                     {order.subscriptionPlan}
@@ -286,9 +298,17 @@ const OrderDetailsPage = () => {
                   </p>
                 </div>
               </div>
-              <Button onClick={() => setIsModalOpen(true)} variant="solid">
+              <div className="flex items-center gap-2">
+                Status:
+                <UpdateOrderStatus
+                  id={id}
+                  currentStatus={order.status}
+                  queryClient={queryClient}
+                />
+              </div>
+              {/* <Button onClick={() => setIsModalOpen(true)} variant="solid">
                 Update Status
-              </Button>
+              </Button> */}
             </div>
           </div>
           // )
