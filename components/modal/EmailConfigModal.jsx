@@ -1,18 +1,41 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import SettingModalFooter from "./SettingModalFooter";
+import { useEmailSettings } from "@/hook/settings";
+import { useToast } from "@/lib/Provider/toastProvider";
+import { useQueryClient } from "@tanstack/react-query";
 
-const EmailConfigModal = ({ isOpen, onClose }) => {
+const EmailConfigModal = ({ isOpen, onClose, data, isLoading }) => {
   const [formData, setFormData] = useState({
     mailHost: "",
     mailPort: "",
     mailUser: "",
-    mailPass: "",
+    mailPassword: "",
   });
 
   if (!isOpen) return null;
+
+  const { showToast } = useToast();
+  const queryClient = useQueryClient();
+
+  const {
+    updateEmailSettings,
+    isLoading: isUpdating,
+    errorMessage,
+  } = useEmailSettings();
+
+  useEffect(() => {
+    if (data) {
+      setFormData({
+        mailHost: data.mailHost || "",
+        mailPort: data.mailPort || "",
+        mailUser: data.mailUser || "",
+        mailPassword: data.mailPassword || "",
+      });
+    }
+  }, [data]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,10 +46,31 @@ const EmailConfigModal = ({ isOpen, onClose }) => {
   };
 
   const handleSave = () => {
-    console.log("Collected Data:", formData);
-    // call API here
-    onClose();
+    updateEmailSettings(formData, {
+      onSuccess: () => {
+        showToast("Email settings updated successfully.", "success", "Updated");
+        queryClient.invalidateQueries(["settings"]);
+        onClose();
+      },
+      onError: () => {
+        showToast(
+          "Failed to update email settings. Please try again.",
+          "error",
+          "Error",
+        );
+      },
+    });
   };
+
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+        <div className="w-full min-h-[90vh] bg-gray-100 rounded-2xl shadow-xl flex items-center justify-center max-h-[90vh]">
+          <div className="animate-pulse text-gray-500">Loading...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
@@ -103,19 +147,26 @@ const EmailConfigModal = ({ isOpen, onClose }) => {
                 </label>
                 <input
                   type="text"
-                  name="mailPass"
-                  value={formData.mailPass}
+                  name="mailPassword"
+                  value={formData.mailPassword}
                   onChange={handleChange}
                   placeholder="Enter Mail Password"
                   className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
+              {errorMessage && (
+                <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
+              )}
             </div>
           </div>
         </div>
 
         {/* Footer */}
-        <SettingModalFooter onCancel={onClose} onSave={handleSave} />
+        <SettingModalFooter
+          onCancel={onClose}
+          onSave={handleSave}
+          isLoading={isUpdating}
+        />
       </div>
     </div>
   );

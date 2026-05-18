@@ -1,16 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import SettingModalFooter from "./SettingModalFooter";
+import { useSmsSettings } from "@/hook/settings";
+import { useToast } from "@/lib/Provider/toastProvider";
+import { useQueryClient } from "@tanstack/react-query";
 
-const SmsConfigModal = ({ isOpen, onClose }) => {
+const SmsConfigModal = ({ isOpen, onClose, data, isLoading }) => {
   const [formData, setFormData] = useState({
     smsDriver: "",
     apiUrl: "",
     apiKey: "",
-    senderId: "",
+    smsSenderId: "",
   });
+  const { showToast } = useToast();
+  const queryClient = useQueryClient();
+
+  const {
+    updateSmsSettings,
+    isLoading: isUpdating,
+    errorMessage,
+  } = useSmsSettings();
+
+  useEffect(() => {
+    if (data) {
+      setFormData({
+        smsDriver: data.smsDriver || "",
+        apiUrl: data.apiUrl || "",
+        apiKey: data.apiKey || "",
+        smsSenderId: data.smsSenderId || "",
+      });
+    }
+  }, [data]);
 
   if (!isOpen) return null;
 
@@ -23,10 +45,27 @@ const SmsConfigModal = ({ isOpen, onClose }) => {
   };
 
   const handleSave = () => {
-    console.log("Collected Data:", formData);
-    // call API here
-    onClose();
+    updateSmsSettings(formData, {
+      onSuccess: () => {
+        showToast("SMS settings updated successfully!", "success", "Updated");
+        queryClient.invalidateQueries(["settings"]);
+        onClose();
+      },
+      onError: () => {
+        showToast("Failed to update SMS settings.", "error", "Error");
+      },
+    });
   };
+
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+        <div className="w-full min-h-[90vh] bg-gray-100 rounded-2xl shadow-xl flex items-center justify-center max-h-[90vh]">
+          <div className="animate-pulse text-gray-500">Loading...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
@@ -103,19 +142,26 @@ const SmsConfigModal = ({ isOpen, onClose }) => {
                 </label>
                 <input
                   type="text"
-                  name="senderId"
-                  value={formData.senderId}
+                  name="smsSenderId"
+                  value={formData.smsSenderId}
                   onChange={handleChange}
                   placeholder="Enter SMS Sender ID"
                   className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
+              {errorMessage && (
+                <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
+              )}
             </div>
           </div>
         </div>
 
         {/* Footer */}
-        <SettingModalFooter onCancel={onClose} onSave={handleSave} />
+        <SettingModalFooter
+          onCancel={onClose}
+          onSave={handleSave}
+          isLoading={isUpdating}
+        />
       </div>
     </div>
   );

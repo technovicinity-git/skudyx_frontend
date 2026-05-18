@@ -5,11 +5,14 @@ import SmsConfigModal from "@/components/modal/SmsConfigModal";
 import EmailConfigModal from "@/components/modal/EmailConfigModal";
 import PrivacyPolicyModal from "@/components/modal/PrivacyPolicyModal";
 import TermsModal from "@/components/modal/TermsModal";
+import { useGetSettings } from "@/hook/settings";
 
 const page = () => {
   const [activeModal, setActiveModal] = useState(null);
 
-  const settings = {
+  const { settings, isLoading } = useGetSettings();
+
+  const settingsUI = {
     title: "Manage Settings",
     description: "Manage your application settings and preferences.",
     items: [
@@ -42,16 +45,16 @@ const page = () => {
         {/* Header */}
         <div className="p-6">
           <h1 className="text-2xl sm:text-3xl font-semibold">
-            {settings.title}
+            {settingsUI.title}
           </h1>
           <p className="text-gray-500 mt-2 text-sm sm:text-base">
-            {settings.description}
+            {settingsUI.description}
           </p>
         </div>
 
         {/* Settings List */}
         <div>
-          {settings.items.map((item, index) => (
+          {settingsUI.items.map((item, index) => (
             <div
               className="flex items-center justify-between border-t border-gray-200 p-5 hover:bg-gray-50 transition duration-200 cursor-pointer"
               onClick={() => setActiveModal(item.id)}
@@ -64,10 +67,22 @@ const page = () => {
         </div>
       </div>
       {/* Conditionally Render Modals */}
-      {activeModal === "sms" && <SmsConfigModal isOpen onClose={handleClose} />}
+      {activeModal === "sms" && (
+        <SmsConfigModal
+          isOpen
+          onClose={handleClose}
+          data={settings?.smsConfig}
+          isLoading={isLoading}
+        />
+      )}
 
       {activeModal === "email" && (
-        <EmailConfigModal isOpen onClose={handleClose} />
+        <EmailConfigModal
+          isOpen
+          onClose={handleClose}
+          data={settings?.emailConfig}
+          isLoading={isLoading}
+        />
       )}
       {activeModal === "privacy" && (
         <PrivacyPolicyModal isOpen onClose={handleClose} />
