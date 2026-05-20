@@ -70,16 +70,6 @@ const CaseDetails = ({ caseDetails, isLoading = true }) => {
     point.longitude,
   ]);
 
-  const escalatedAt = caseDetails?.history
-    .filter((item) => item?.to_status === "Escalated")
-    .pop()?.timestamp;
-
-  // const coords =
-  //   caseDetails?.location_history?.map((loc) => [
-  //     loc.longitude,
-  //     loc.latitude,
-  //   ]) || [];
-
   return (
     <>
       {isLoading ? (
@@ -187,70 +177,62 @@ const CaseDetails = ({ caseDetails, isLoading = true }) => {
 
               {/* Case Timeline */}
               <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
-                {/* <h3 className="font-semibold text-lg mb-4">Case Timeline</h3> */}
+                <div className="space-y-4">
+                  {caseDetails?.history?.map((item) => {
+                    let title = "";
 
-                <div className="space-y-4 ">
-                  <div>
-                    <div className="text-gray-500 font-semibold text-[12px]">
-                      Case Created
-                    </div>
-                    <div className="text-[14px]">
-                      {formatDateTime(caseDetails?.createdAt)}
-                    </div>
-                  </div>
+                    const role =
+                      item?.actor_role?.charAt(0).toUpperCase() +
+                        item?.actor_role?.slice(1) || "";
 
-                  {caseDetails?.status?.toLowerCase() !== "pending" && (
-                    <div>
-                      <div className="text-gray-500 font-semibold text-[12px]">
-                        Case Accepted
+                    // Case Created
+                    if (item?.event_type === "EMERGENCY_TRIGGER") {
+                      title = "Case Created";
+                    }
+
+                    // Agent accepted case
+                    else if (item?.event_type === "ASSIGNMENT") {
+                      title = `Case Accepted by Agent`;
+                    }
+
+                    // Admin assigned case to agent
+                    else if (item?.event_type === "ADMIN_ASSIGNMENT") {
+                      title = `Case Assigned by ${role}`;
+                    }
+
+                    // Status updates (Admin / Agent / User)
+                    else if (
+                      item?.event_type === "ADMIN_STATUS_UPDATE" ||
+                      item?.event_type === "AGENT_STATUS_UPDATE" ||
+                      item?.event_type === "USER_STATUS_UPDATE"
+                    ) {
+                      const status = item?.to_status?.toLowerCase();
+
+                      if (status === "escalated") {
+                        title = `Case Escalated by ${role}`;
+                      } else if (status === "resolved") {
+                        title = `Case Resolved by ${role}`;
+                      } else if (status === "unresolved") {
+                        title = `Case Unresolved by ${role}`;
+                      } else if (status === "false") {
+                        title = `Case Declared False by ${role}`;
+                      } else {
+                        title = `Case ${item?.to_status} by ${role}`;
+                      }
+                    }
+
+                    return (
+                      <div key={item?._id}>
+                        <div className="text-gray-500 font-semibold text-[12px]">
+                          {title}
+                        </div>
+
+                        <div className="text-[14px]">
+                          {formatDateTime(item?.timestamp)}
+                        </div>
                       </div>
-                      <div className="text-[14px]">
-                        {formatDateTime(caseDetails?.assigned_at)}
-                      </div>
-                    </div>
-                  )}
-                  {(caseDetails?.status?.toLowerCase() === "escalated" ||
-                    caseDetails?.status?.toLowerCase() === "resolved" ||
-                    caseDetails?.status?.toLowerCase() === "unresolved") && (
-                    <div>
-                      <div className="text-gray-500 font-semibold text-[12px]">
-                        Case Escalated
-                      </div>
-                      <div className="text-[14px]">
-                        {(escalatedAt && formatDateTime(escalatedAt)) || "N/A"}
-                      </div>
-                    </div>
-                  )}
-                  {caseDetails?.status?.toLowerCase() === "resolved" && (
-                    <div>
-                      <div className="text-gray-500 font-semibold text-[12px]">
-                        Case Resolved
-                      </div>
-                      <div className="text-[14px]">
-                        {formatDateTime(caseDetails?.updatedAt)}
-                      </div>
-                    </div>
-                  )}
-                  {caseDetails?.status?.toLowerCase() === "unresolved" && (
-                    <div>
-                      <div className="text-gray-500 font-semibold text-[12px]">
-                        Case Unresolved
-                      </div>
-                      <div className="text-[14px]">
-                        {formatDateTime(caseDetails?.updatedAt)}
-                      </div>
-                    </div>
-                  )}
-                  {caseDetails?.status?.toLowerCase() === "false" && (
-                    <div>
-                      <div className="text-gray-500 font-semibold text-[12px]">
-                        Case Declared False
-                      </div>
-                      <div className="text-[14px]">
-                        {formatDateTime(caseDetails?.updatedAt)}
-                      </div>
-                    </div>
-                  )}
+                    );
+                  })}
                 </div>
               </div>
 
