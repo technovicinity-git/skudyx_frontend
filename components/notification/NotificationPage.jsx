@@ -18,6 +18,7 @@ import {
   useMarkActivityAsRead,
 } from "@/hook/caseActivity";
 import { LeftArrowIcon, RightArrowIcon } from "@/public/assets/icons/icons";
+import { useQueryClient } from "@tanstack/react-query";
 
 // ---------------------------------------------------
 // NOTIFICATION PAGE
@@ -29,6 +30,7 @@ const NotificationPage = () => {
   const [search, setSearch] = useState("");
 
   const [selectedType, setSelectedType] = useState("");
+  const queryClient = useQueryClient();
 
   const { activities, isLoading, meta } = useGetCaseActivities({
     page,
@@ -125,7 +127,11 @@ const NotificationPage = () => {
   // ---------------------------------------------------
 
   const handleRead = (id) => {
-    markAsRead(id);
+    markAsRead(id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["caseActivities"]);
+      },
+    });
   };
 
   // ---------------------------------------------------
