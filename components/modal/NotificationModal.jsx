@@ -269,6 +269,7 @@ const NotificationModal = ({ isOpen, onClose, anchorRef }) => {
               hover:opacity-90 transition
               flex items-center justify-center gap-2
             "
+              onClick={onClose}
             >
               View All Notifications
             </button>

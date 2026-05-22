@@ -1,12 +1,12 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import moment from "moment";
 import clsx from "clsx";
 
 import {
   Bell,
   Search,
-  CheckCheck,
+  // CheckCheck,
   AlertTriangle,
   ShieldAlert,
   UserCheck,
@@ -319,9 +319,9 @@ const NotificationPage = () => {
                             )}
                           </div>
 
-                          <p className="text-xs text-[#406DA4] mt-1 font-medium">
+                          {/* <p className="text-xs text-[#406DA4] mt-1 font-medium">
                             {item.case_code}
-                          </p>
+                          </p> */}
                         </div>
 
                         <span className="text-xs text-gray-400 whitespace-nowrap">
@@ -361,9 +361,9 @@ const NotificationPage = () => {
                             {item.sender_id?.last_name}
                           </p>
 
-                          <p className="text-xs text-gray-500">
+                          {/* <p className="text-xs text-gray-500">
                             {item.type.replaceAll("_", " ")}
-                          </p>
+                          </p> */}
                         </div>
                       </div>
                     </div>
