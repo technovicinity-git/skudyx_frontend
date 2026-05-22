@@ -30,10 +30,10 @@ const OrderList = () => {
     },
     {
       label: "User ID",
-      accessor: "userId",
+      accessor: "user_id",
       render: (row) => (
         <span className="flex items-center gap-2">
-          <div>{row?.userId?._id}</div>
+          <div>{row?.userId?.user_id}</div>
         </span>
       ),
     },
