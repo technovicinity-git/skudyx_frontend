@@ -109,7 +109,7 @@ const OrderDetailsPage = () => {
                 </p>
                 <p>
                   <span className="font-medium">User ID:</span>{" "}
-                  {order.userId?._id}
+                  {order.userId?.user_id}
                 </p>
                 {/* <p>
                     <span className="font-medium">Status:</span>{" "}
