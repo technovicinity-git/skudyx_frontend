@@ -1,6 +1,7 @@
 import {
   getCaseActivitiesFn,
   markActivityAsReadFn,
+  markAllActivitiesAsReadFn,
 } from "@/service/caseActivity";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
@@ -24,4 +25,17 @@ export const useMarkActivityAsRead = () => {
   });
   const errorMessage = error?.response?.data?.message || null;
   return { markAsRead, isLoading, error, errorMessage };
+};
+
+export const useMarkAllActivitiesAsRead = (option = {}) => {
+  const {
+    mutate: markAllAsRead,
+    isPending: isLoading,
+    error,
+  } = useMutation({
+    mutationFn: () => markAllActivitiesAsReadFn(),
+    ...option,
+  });
+  const errorMessage = error?.response?.data?.message || null;
+  return { markAllAsRead, isLoading, error, errorMessage };
 };

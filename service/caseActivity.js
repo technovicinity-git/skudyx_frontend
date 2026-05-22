@@ -14,3 +14,6 @@ export const getCaseActivitiesFn = async (query) => {
 
 export const markActivityAsReadFn = async (id) =>
   await API.patch(`/case-activity/${id}/read`);
+
+export const markAllActivitiesAsReadFn = async () =>
+  await API.patch(`/case-activity/all/read`);

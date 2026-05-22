@@ -5,7 +5,10 @@ import AvailabilityStatus from "@/components/modal/AvailabilityStatus";
 import NotificationModal from "@/components/modal/NotificationModal";
 import ProfileModal from "@/components/modal/ProfileModal";
 import { useLogout } from "@/hook/auth";
-import { useGetCaseActivities } from "@/hook/caseActivity";
+import {
+  useGetCaseActivities,
+  useMarkAllActivitiesAsRead,
+} from "@/hook/caseActivity";
 import { useGetMyProfile } from "@/hook/user";
 import { useToast } from "@/lib/Provider/toastProvider";
 import { socket } from "@/lib/socket";
@@ -39,10 +42,25 @@ const Header = () => {
     page: 1,
     limit: 20,
   });
+  const { markAllAsRead } = useMarkAllActivitiesAsRead({
+    onSuccess: () => {
+      console.log("✅ All notifications marked as read");
+      queryClient.invalidateQueries({
+        queryKey: ["caseActivities"],
+        exact: false,
+      });
+    },
+  });
   // Unread count for notifications
+  // const unreadCount = useMemo(() => {
+  //   return activities?.filter((item) => !item?.is_read_by?.length)?.length || 0;
+  // }, [activities]);
   const unreadCount = useMemo(() => {
-    return activities?.filter((item) => !item?.is_read_by?.length)?.length || 0;
-  }, [activities]);
+    return (
+      activities?.filter((item) => !item?.is_read_by?.includes(profile?._id))
+        ?.length || 0
+    );
+  }, [activities, profile?._id]);
 
   const playNotificationSound = (type = "default") => {
     let audio = new Audio("/assets/sounds/notification.wav");
@@ -119,7 +137,16 @@ const Header = () => {
 
       socket.off("new_notification", handleNewNotification);
     };
-  }, [profile]);
+  }, [queryClient, profile?._id]);
+
+  const handleNotification = () => {
+    setShowNotifications(!showNotifications);
+    setShowProfile(false);
+
+    if (unreadCount > 0) {
+      markAllAsRead();
+    }
+  };
 
   const handleLogout = () => {
     logout();
@@ -174,10 +201,7 @@ const Header = () => {
         <div ref={notificationRef} className="relative">
           <button
             className="relative p-0 text-[#141B34] transition hover:text-primary-1 cursor-pointer"
-            onClick={() => {
-              setShowNotifications(!showNotifications);
-              setShowProfile(false);
-            }}
+            onClick={handleNotification}
           >
             {NotificationIcon}
             {/* UNREAD DOT */}
