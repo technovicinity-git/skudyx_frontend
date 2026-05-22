@@ -44,8 +44,12 @@ const Header = () => {
     return activities?.filter((item) => !item?.is_read_by?.length)?.length || 0;
   }, [activities]);
 
-  const playNotificationSound = () => {
-    const audio = new Audio("/assets/sounds/notification.mp3");
+  const playNotificationSound = (type = "default") => {
+    let audio = new Audio("/assets/sounds/notification.wav");
+
+    if (type === "CASE_CREATED") {
+      audio = new Audio("/assets/sounds/emergency_alert.mp3");
+    }
 
     audio.volume = 0.7;
 
@@ -73,7 +77,7 @@ const Header = () => {
       console.log("🔔 New notification:", notification);
 
       // PLAY SOUND
-      playNotificationSound();
+      playNotificationSound(notification?.type);
 
       // SHOW TOAST
       showToast(notification?.message, "info", notification?.title);
