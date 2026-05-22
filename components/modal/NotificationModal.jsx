@@ -17,8 +17,10 @@ import clsx from "clsx";
 import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 const NotificationModal = ({ isOpen, onClose, anchorRef }) => {
+  const [loadingId, setLoadingId] = useState(null);
   useOutsideClick(anchorRef, onClose);
 
   const queryClient = useQueryClient();
@@ -30,7 +32,7 @@ const NotificationModal = ({ isOpen, onClose, anchorRef }) => {
     limit: 20,
   });
 
-  const { markAsRead, isLoading: isMarkingAsRead } = useMarkActivityAsRead();
+  const { markAsRead } = useMarkActivityAsRead();
 
   if (!isOpen) return null;
 
@@ -82,9 +84,15 @@ const NotificationModal = ({ isOpen, onClose, anchorRef }) => {
   };
 
   const handleRead = (id) => {
+    if (loadingId) return; // prevent double clicks
+    setLoadingId(id);
     markAsRead(id, {
       onSuccess: () => {
         queryClient.invalidateQueries(["caseActivities"]);
+        setLoadingId(null);
+      },
+      onError: () => {
+        setLoadingId(null);
       },
     });
   };
@@ -183,14 +191,38 @@ const NotificationModal = ({ isOpen, onClose, anchorRef }) => {
                           {item.title}
                         </h4>
 
-                        <p className="text-xs text-gray-500 mt-1">
+                        {/* <p className="text-xs text-gray-500 mt-1">
                           {item.case_code}
-                        </p>
+                        </p> */}
                       </div>
 
-                      {isUnread(item) && (
-                        <div className="h-2 w-2 rounded-full bg-[#406DA4] mt-2 shrink-0" />
-                      )}
+                      {isUnread(item) &&
+                        (loadingId === item._id ? (
+                          <svg
+                            className="animate-spin text-[#406DA4]"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            width={10}
+                            height={10}
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            />
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                            />
+                          </svg>
+                        ) : (
+                          <span className="h-2 w-2 rounded-full bg-[#406DA4]" />
+                        ))}
                     </div>
 
                     {/* MESSAGE */}
