@@ -6,6 +6,7 @@ import NotificationModal from "@/components/modal/NotificationModal";
 import ProfileModal from "@/components/modal/ProfileModal";
 import { useLogout } from "@/hook/auth";
 import { useGetMyProfile } from "@/hook/user";
+import { useToast } from "@/lib/Provider/toastProvider";
 import { NotificationIcon } from "@/public/assets/icons/icons";
 import { MenuIcon, X } from "lucide-react";
 import Image from "next/image";
@@ -27,6 +28,8 @@ const Header = () => {
   const notificationRef = useRef(null);
   const pathname = usePathname();
   const basePath = pathname.split("/")[1];
+
+  const { showToast } = useToast();
 
   const handleLogout = () => {
     logout();

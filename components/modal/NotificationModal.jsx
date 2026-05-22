@@ -1,6 +1,5 @@
 import {
   Bell,
-  CheckCheck,
   AlertTriangle,
   ShieldAlert,
   UserCheck,
@@ -16,11 +15,15 @@ import useOutsideClick from "@/hook/useOutsideClick";
 import moment from "moment";
 import clsx from "clsx";
 import { useQueryClient } from "@tanstack/react-query";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const NotificationModal = ({ isOpen, onClose, anchorRef }) => {
   useOutsideClick(anchorRef, onClose);
 
-  const quertClient = useQueryClient();
+  const queryClient = useQueryClient();
+  const pathname = usePathname();
+  const basePath = pathname.split("/")[1];
 
   const { activities, isLoading, meta } = useGetCaseActivities({
     page: 1,
@@ -81,7 +84,7 @@ const NotificationModal = ({ isOpen, onClose, anchorRef }) => {
   const handleRead = (id) => {
     markAsRead(id, {
       onSuccess: () => {
-        quertClient.invalidateQueries(["caseActivities"]);
+        queryClient.invalidateQueries(["caseActivities"]);
       },
     });
   };
@@ -258,17 +261,18 @@ const NotificationModal = ({ isOpen, onClose, anchorRef }) => {
 
       {!!activities?.length && (
         <div className="border-t border-gray-100 p-3 bg-gray-50">
-          <button
-            className="
+          <Link href={`/${basePath}/notifications`}>
+            <button
+              className="
               w-full h-11 rounded-xl
               bg-[#406DA4] text-white text-sm font-medium
               hover:opacity-90 transition
               flex items-center justify-center gap-2
             "
-          >
-            <CheckCheck size={16} />
-            View All Notifications
-          </button>
+            >
+              View All Notifications
+            </button>
+          </Link>
         </div>
       )}
     </div>
