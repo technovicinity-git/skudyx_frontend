@@ -5,14 +5,17 @@ import AvailabilityStatus from "@/components/modal/AvailabilityStatus";
 import NotificationModal from "@/components/modal/NotificationModal";
 import ProfileModal from "@/components/modal/ProfileModal";
 import { useLogout } from "@/hook/auth";
+import { useGetCaseActivities } from "@/hook/caseActivity";
 import { useGetMyProfile } from "@/hook/user";
 import { useToast } from "@/lib/Provider/toastProvider";
+import { socket } from "@/lib/socket";
 import { NotificationIcon } from "@/public/assets/icons/icons";
+import { useQueryClient } from "@tanstack/react-query";
 import { MenuIcon, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const Header = () => {
   const { logout, isLoading } = useLogout();
@@ -30,6 +33,89 @@ const Header = () => {
   const basePath = pathname.split("/")[1];
 
   const { showToast } = useToast();
+  const queryClient = useQueryClient();
+
+  const { activities } = useGetCaseActivities({
+    page: 1,
+    limit: 20,
+  });
+  // Unread count for notifications
+  const unreadCount = useMemo(() => {
+    return activities?.filter((item) => !item?.is_read_by?.length)?.length || 0;
+  }, [activities]);
+
+  const playNotificationSound = () => {
+    const audio = new Audio("/assets/sounds/notification.mp3");
+
+    audio.volume = 0.7;
+
+    audio.play().catch(() => {});
+  };
+
+  useEffect(() => {
+    if (!profile?._id) return;
+
+    socket.on("connect", () => {
+      console.log("✅ Notification socket connected:", socket.id);
+
+      // Join rooms
+      socket.emit("join", {
+        userId: profile?._id,
+        role: profile?.role,
+      });
+    });
+
+    // ----------------------------------------
+    // NEW NOTIFICATION
+    // ----------------------------------------
+
+    const handleNewNotification = (notification) => {
+      console.log("🔔 New notification:", notification);
+
+      // PLAY SOUND
+      playNotificationSound();
+
+      // SHOW TOAST
+      showToast(notification?.message, "info", notification?.title);
+
+      // UPDATE CACHE
+      queryClient.setQueryData(
+        [
+          "caseActivities",
+          {
+            page: 1,
+            limit: 20,
+          },
+        ],
+        (old) => {
+          if (!old) return old;
+
+          return {
+            ...old,
+
+            data: {
+              ...old.data,
+
+              meta: {
+                ...old.data.meta,
+                total_records: (old?.data?.meta?.total_records || 0) + 1,
+              },
+
+              data: [notification, ...(old?.data?.data || [])],
+            },
+          };
+        },
+      );
+    };
+
+    socket.on("new_notification", handleNewNotification);
+
+    return () => {
+      socket.off("connect");
+
+      socket.off("new_notification", handleNewNotification);
+    };
+  }, [profile]);
 
   const handleLogout = () => {
     logout();
@@ -90,6 +176,35 @@ const Header = () => {
             }}
           >
             {NotificationIcon}
+            {/* UNREAD DOT */}
+
+            {unreadCount > 0 && (
+              <>
+                <span
+                  className="
+                    absolute -top-1 -right-1
+                    h-3 w-3 rounded-full
+                    bg-red-500 border-2 border-white
+                    animate-pulse
+                  "
+                />
+
+                {/* COUNT */}
+
+                <span
+                  className="
+                    absolute -top-2 -right-2
+                    min-w-[18px] h-[18px]
+                    px-1 rounded-full
+                    bg-red-500 text-white
+                    text-[10px] font-semibold
+                    flex items-center justify-center
+                  "
+                >
+                  {unreadCount > 99 ? "99+" : unreadCount}
+                </span>
+              </>
+            )}
           </button>
           <NotificationModal
             isOpen={showNotifications}
