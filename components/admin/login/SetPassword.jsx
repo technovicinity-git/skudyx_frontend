@@ -7,7 +7,6 @@ import Image from "next/image";
 import { useResetPassword } from "@/hook/auth";
 
 const SetPassword = ({ setCurrentStep, userEmail, otp }) => {
-  
   const { resetPassword, isLoading, error } = useResetPassword({
     onSuccess: () => setCurrentStep("success"),
   });
@@ -18,7 +17,12 @@ const SetPassword = ({ setCurrentStep, userEmail, otp }) => {
     const newPassword = formData.get("password");
     const confirmPassword = formData.get("confirm-password");
 
-    resetPassword({ email: userEmail, otp, newPassword, confirmPassword });
+    resetPassword({
+      email: userEmail,
+      otp,
+      password: newPassword,
+      confirmPassword,
+    });
   };
 
   return (
