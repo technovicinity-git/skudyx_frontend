@@ -12,7 +12,8 @@ import { formatDateTime } from "@/utils/formatDateTime";
 // import TestAudioPlayer from "@/components/TestAudioPlayer";
 
 import dynamic from "next/dynamic";
-import LiveAudioV3 from "@/components/audio/LiveAudioV3";
+// import LiveAudioV3 from "@/components/audio/LiveAudioV3";
+import WebRTCAudioPlayer from "@/components/audio/WebRTCAudioPlayer";
 
 // import WebSocketAudioPlayer from "@/components/WebSocketAudioPlayer";
 
@@ -250,7 +251,8 @@ const CaseDetails = ({ caseDetails, isLoading = true }) => {
                     {caseDetails?.status === "Pending" ||
                     caseDetails?.status === "In Progress" ||
                     caseDetails?.status === "Escalated" ? (
-                      <LiveAudioV3 caseId={caseDetails?.case_id} />
+                      // <LiveAudioV3 caseId={caseDetails?.case_id} />
+                      <WebRTCAudioPlayer caseId={caseDetails?.case_id} />
                     ) : (
                       // <AudioPlayer socket={audioData} />
                       <></>
